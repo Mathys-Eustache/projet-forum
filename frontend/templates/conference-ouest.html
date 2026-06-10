@@ -1,0 +1,150 @@
+{{define "conference-ouest"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA TalkZone - Conférence Ouest</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/conference.css">
+</head>
+<body>
+    <div class="site-layout">
+        <div class="side-band band-blue"></div>
+        
+        <div class="main-content">
+            
+            <header class="nba-header">
+                <div class="logo-container">
+                    <a href="/"><img src="/static/assets/img/Logo_NBA_TalkZone.png" alt="Logo of NBA TalkZone" class="nba-logo"></a>
+                </div>
+
+                <nav class="nav-container">
+                    <ul class="nav-menu">
+                        <li><a href="/categories">Catégories</a></li>
+                        <li><a href="/conference-ouest">Conférence Ouest</a></li>
+                        <li><a href="/conference-est">Conférence Est</a></li>
+                        <li><a href="/inscription">Inscription</a></li>
+                        <li><a href="/connexion">Se connecter</a></li>
+                    </ul>
+                    
+                    <div class="search-box">
+                        <form action="/search" method="GET">
+                            <input type="text" name="q" placeholder="Rechercher..." required>
+                            <button type="submit" class="search-btn">🔍</button>
+                        </form>
+                    </div>
+                </nav>
+            </header>
+
+            <main class="conference-page">
+                <section class="conference-hero">
+                    <h1 class="main-title">Threads sur les franchises de la Conférence Ouest</h1>
+                </section>
+
+                <section class="conference-table-card">
+                    <table class="conference-table">
+                        <thead>
+                            <tr>
+                                <th>Franchise</th>
+                                <th>Threads</th>
+                                <th>Messages</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/lakers'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/lakers.png" alt="Los Angeles Lakers"><span>Los Angeles Lakers</span></td>
+                                <td>18</td>
+                                <td>126</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/clippers'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/clippers.png" alt="Los Angeles Clippers"><span>Los Angeles Clippers</span></td>
+                                <td>14</td>
+                                <td>91</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/warriors'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/warriors.png" alt="Golden State Warriors"><span>Golden State Warriors</span></td>
+                                <td>22</td>
+                                <td>154</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/kings'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/kings.png" alt="Sacramento Kings"><span>Sacramento Kings</span></td>
+                                <td>10</td>
+                                <td>68</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/suns'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/phoenix-suns.png" alt="Phoenix Suns"><span>Phoenix Suns</span></td>
+                                <td>13</td>
+                                <td>87</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/nuggets'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/nuggets.png" alt="Denver Nuggets"><span>Denver Nuggets</span></td>
+                                <td>16</td>
+                                <td>104</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/timberwolves'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/timberwolves.png" alt="Minnesota Timberwolves"><span>Minnesota Timberwolves</span></td>
+                                <td>9</td>
+                                <td>57</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/thunder'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/thunder.png" alt="Oklahoma City Thunder"><span>Oklahoma City Thunder</span></td>
+                                <td>17</td>
+                                <td>113</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/rockets'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/rockets.png" alt="Houston Rockets"><span>Houston Rockets</span></td>
+                                <td>11</td>
+                                <td>74</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/spurs'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/spurs.png" alt="San Antonio Spurs"><span>San Antonio Spurs</span></td>
+                                <td>8</td>
+                                <td>49</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/mavericks'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/mavericks.png" alt="Dallas Mavericks"><span>Dallas Mavericks</span></td>
+                                <td>12</td>
+                                <td>79</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/pelicans'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/pelicans.png" alt="New Orleans Pelicans"><span>New Orleans Pelicans</span></td>
+                                <td>7</td>
+                                <td>43</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/grizzilies'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/grizzilies.png" alt="Memphis Grizzlies"><span>Memphis Grizzlies</span></td>
+                                <td>9</td>
+                                <td>61</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/trail-blazers'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/trail-blazers.png" alt="Portland Trail Blazers"><span>Portland Trail Blazers</span></td>
+                                <td>10</td>
+                                <td>66</td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/conference-ouest/jazz'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-ouest/jazz.png" alt="Utah Jazz"><span>Utah Jazz</span></td>
+                                <td>6</td>
+                                <td>38</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+
+            <footer class="site-footer">
+                <p>© 2026 NBA TalkZone — Le forum n°1 en France pour les fans de NBA.</p>
+                <div class="footer-links">
+                    <a href="/mentions">Mentions légales</a>
+                    <span>·</span>
+                    <a href="/contact">Contact</a>
+                </div>
+            </footer>
+
+        </div>
+
+        <div class="side-band band-red"></div>
+    </div>
+</body>
+</html>
+{{end}}
