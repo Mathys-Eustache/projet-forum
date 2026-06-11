@@ -26,3 +26,10 @@ func (r *UserRepository) CreateUser(u models.User) (int, error) {
 	}
 	return int(id), nil
 }
+
+func (r *UserRepository) GetUserByLogin(login string) (models.User, error) {
+	var u models.User
+	query := "SELECT id, username, email, password, role FROM Users WHERE username = ? OR email = ?;"
+	err := r.db.QueryRow(query, login, login).Scan(&u.ID, &u.Username, &u.Email, &u.Password, &u.Role)
+	return u, err
+}

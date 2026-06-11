@@ -21,7 +21,7 @@ func (c *AuthController) RegisterHandler(w http.ResponseWriter, r *http.Request)
 
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": "Méthode non autorisée"})
+		json.NewEncoder(w).Encode(map[string]string{"erreur": "Methode non autorisee"})
 		return
 	}
 
@@ -29,7 +29,7 @@ func (c *AuthController) RegisterHandler(w http.ResponseWriter, r *http.Request)
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": "Format des données invalide"})
+		json.NewEncoder(w).Encode(map[string]string{"erreur": "Format des donnees invalide"})
 		return
 	}
 
@@ -42,7 +42,34 @@ func (c *AuthController) RegisterHandler(w http.ResponseWriter, r *http.Request)
 
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(map[string]interface{}{
-		"message": "Inscription réussie",
+		"message": "Inscription reussie",
 		"id":      id,
 	})
+}
+
+func (c *AuthController) LoginHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		json.NewEncoder(w).Encode(map[string]string{"erreur": "Methode non autorisee"})
+		return
+	}
+
+	var req dto.LoginRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{"erreur": "Format des donnees invalide"})
+		return
+	}
+
+	token, err := c.service.Login(req)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]string{"erreur": err.Error()})
+		return
+	}
+
+	json.NewEncoder(w).Encode(map[string]string{"token": token})
 }

@@ -1,0 +1,103 @@
+.conference-page {
+    padding: 32px 24px 40px;
+}
+
+.conference-hero {
+    margin-bottom: 18px;
+}
+
+.conference-hero h1 {
+    font-size: 2rem;
+    color: #082D59;
+    margin-bottom: 8px;
+}
+
+.conference-hero p {
+    color: #4b5563;
+    font-size: 1rem;
+}
+
+.conference-table-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(8, 45, 89, 0.12);
+    overflow: hidden;
+}
+
+.conference-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.98rem;
+}
+
+.conference-table th,
+.conference-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.conference-table th {
+    background: #1C428A;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.82rem;
+}
+
+.conference-table tbody tr:hover {
+    background: #eff6ff;
+}
+
+.clickable-row {
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.clickable-row:hover {
+    background: #eef4ff;
+}
+
+.team-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.team-cell img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+}
+
+.conference-table td:nth-child(2),
+.conference-table td:nth-child(3) {
+    text-align: center;
+    font-weight: 600;
+    color: #082D59;
+}
+
+@media (max-width: 900px) {
+    .conference-page {
+        padding: 20px 12px 28px;
+    }
+
+    .conference-table {
+        font-size: 0.92rem;
+    }
+
+    .team-cell {
+        gap: 10px;
+    }
+
+    .team-cell img {
+        width: 36px;
+        height: 36px;
+    }
+}

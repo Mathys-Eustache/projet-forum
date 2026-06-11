@@ -22,7 +22,7 @@ func InitAuthService(repo *repositories.UserRepository) *AuthService {
 
 func (s *AuthService) Register(req dto.RegisterRequest) (int, error) {
 	if len(req.Password) < 12 {
-		return -1, errors.New("le mot de passe doit contenir au moins 12 caractères")
+		return -1, errors.New("le mot de passe doit contenir au moins 12 caracteres")
 	}
 
 	hasUpper := false
@@ -37,7 +37,7 @@ func (s *AuthService) Register(req dto.RegisterRequest) (int, error) {
 	}
 
 	if !hasUpper || !hasSpecial {
-		return -1, errors.New("le mot de passe doit contenir au moins une majuscule et un caractère spécial")
+		return -1, errors.New("le mot de passe doit contenir au moins une majuscule et un caractere special")
 	}
 
 	if strings.TrimSpace(req.Username) == "" || strings.TrimSpace(req.Email) == "" {
@@ -55,4 +55,19 @@ func (s *AuthService) Register(req dto.RegisterRequest) (int, error) {
 	}
 
 	return s.repo.CreateUser(newUser)
+}
+
+func (s *AuthService) Login(req dto.LoginRequest) (string, error) {
+	u, err := s.repo.GetUserByLogin(req.Email)
+	if err != nil {
+		return "", errors.New("identifiants invalides")
+	}
+
+	hasher := sha512.New()
+	hasher.Write([]byte(req.Password))
+	if hex.EncodeToString(hasher.Sum(nil)) != u.Password {
+		return "", errors.New("identifiants invalides")
+	}
+
+	return "TOKEN_SIMULE_POUR_" + u.Username, nil
 }
