@@ -57,17 +57,17 @@ func (s *AuthService) Register(req dto.RegisterRequest) (int, error) {
 	return s.repo.CreateUser(newUser)
 }
 
-func (s *AuthService) Login(req dto.LoginRequest) (string, error) {
+func (s *AuthService) Login(req dto.LoginRequest) (string, string, error) {
 	u, err := s.repo.GetUserByLogin(req.Email)
 	if err != nil {
-		return "", errors.New("identifiants invalides")
+		return "", "", errors.New("identifiants invalides")
 	}
 
 	hasher := sha512.New()
 	hasher.Write([]byte(req.Password))
 	if hex.EncodeToString(hasher.Sum(nil)) != u.Password {
-		return "", errors.New("identifiants invalides")
+		return "", "", errors.New("identifiants invalides")
 	}
 
-	return "TOKEN_SIMULE_POUR_" + u.Username, nil
+	return "TOKEN_SIMULE_POUR_" + u.Username, u.Username, nil
 }

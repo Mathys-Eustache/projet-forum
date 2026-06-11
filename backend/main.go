@@ -5,38 +5,56 @@ import (
 	"net/http"
 	"projet-forum/backend/config"
 	"projet-forum/backend/controllers"
+	"projet-forum/backend/handlers"
 	"projet-forum/backend/repositories"
 	"projet-forum/backend/routers"
 	"projet-forum/backend/services"
 )
 
+func enableCORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, Pseudo")
+
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
-	// 1. Connexion à la base de données
 	db := config.InitDB()
 	defer db.Close()
 
-	// 2. Initialisation du module AUTH (Utilisateurs)
 	userRepo := repositories.InitUserRepository(db)
 	authService := services.InitAuthService(userRepo)
 	authController := controllers.InitAuthController(authService)
 
-	// 3. Initialisation du module CATEGORIES
 	categoryRepo := &repositories.CategoryRepository{DB: db}
 	categoryService := &services.CategoryService{Repo: categoryRepo}
 	categoryController := &controllers.CategoryController{Service: categoryService}
 
-	// 4. Initialisation du module TOPICS
 	topicRepo := &repositories.TopicRepository{DB: db}
 	topicService := services.InitTopicService(topicRepo)
 	topicController := controllers.InitTopicController(topicService)
 
-	// 5. Configuration des Routes sur le Mux
+	postRepo := &repositories.PostRepository{DB: db}
+	postService := services.InitPostService(postRepo)
+	postController := controllers.InitPostController(postService)
+
 	mux := http.NewServeMux()
 	routers.SetupAuthRoutes(mux, authController)
 	routers.SetupCategoryRoutes(mux, categoryController)
 	routers.SetupTopicRoutes(mux, topicController)
+	routers.SetupPostRoutes(mux, postController)
 
-	// 6. Lancement du serveur
+	mux.HandleFunc("/api/messages", handlers.HandleMessages(db))
+	mux.HandleFunc("/api/messages/", handlers.HandleDeleteMessage(db))
+
 	fmt.Println("Serveur lance sur http://localhost:8080")
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":8080", enableCORS(mux))
 }
