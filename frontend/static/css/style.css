@@ -289,11 +289,26 @@ body, html {
     margin-bottom: 4px;
 }
 
+/* Assurez-vous que le conteneur du carrousel est bien positionné en relatif */
 .carousel {
     position: relative;
     overflow: hidden;
     border-radius: 8px;
     width: 100%;
+    /* Ajoutez une hauteur fixe ou min-height ici si nécessaire */
+    height: 400px; 
+}
+
+/* Positionner les contrôles par-dessus le contenu */
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    z-index: 20;
 }
 
 .carousel-inner {
@@ -303,9 +318,12 @@ body, html {
     overflow: hidden;
 }
 
+/* Assurer que les slides occupent bien la place */
 .slide-effect .carousel-inner {
     display: flex;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%; /* Important */
+    width: 100%;
 }
 
 .slide {
@@ -338,8 +356,8 @@ body, html {
     transition: opacity 0.8s ease-in-out;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: flex-start;
 }
 
 .fade-effect .slide.active-fade {
@@ -368,29 +386,31 @@ body, html {
 
 /* Styles spécifiques pour le carrousel Players */
 .fade-effect .image-wrapper {
-    padding: 10px;
-    background: linear-gradient(white, #f3f4f6);
+    width: 100%;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    flex: 1;
 }
 
 .fade-effect .image-wrapper img {
-    width: auto;
-    max-height: 100%;
-    height: 380px;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 0;
 }
 
 .fade-effect .carousel-caption {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.35));
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35));
     color: #fff;
-    padding: 20px 16px;
-    text-align: center;
+    padding: 14px 16px 16px;
+    margin: 0;
+    z-index: 10;
     width: 100%;
 }
 

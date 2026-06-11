@@ -3,8 +3,8 @@ USE forum_nba;
 
 CREATE TABLE Users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    email VARCHAR(255) NOT NULL UNIQUE,
+    username VARCHAR(191) NOT NULL UNIQUE,
+    email VARCHAR(191) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(50) DEFAULT 'user',
     is_banned BOOLEAN DEFAULT FALSE,

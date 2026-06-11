@@ -21,9 +21,12 @@ var baseDir = func() string {
 
 func renderTemplate(w http.ResponseWriter, name string, data map[string]interface{}) {
 	files := []string{
-		filepath.Join(baseDir, "templates", "index.html"),
-		filepath.Join(baseDir, "templates", "conference-ouest.html"),
-		filepath.Join(baseDir, "templates", "conference-est.html"),
+		filepath.Join("templates", "index.html"),
+		filepath.Join("templates", "conference-ouest.html"),
+		filepath.Join("templates", "conference-est.html"),
+		filepath.Join("templates", "team.html"),
+		filepath.Join("templates", "inscription.html"),
+		filepath.Join("templates", "connexion.html"),
 	}
 
 	tmpl, err := template.ParseFiles(files...)
@@ -66,7 +69,6 @@ func main() {
 			http.NotFound(w, r)
 			return
 		}
-
 		renderTemplate(w, "index", data)
 	})
 
@@ -78,22 +80,22 @@ func main() {
 		renderTemplate(w, "conference-est", data)
 	})
 
-	http.HandleFunc("/conference-ouest/", func(w http.ResponseWriter, r *http.Request) {
-		serveTeamPage(w, r, "conference-ouest")
+	http.HandleFunc("/conference-est/celtics", func(w http.ResponseWriter, r *http.Request) {
+		renderTemplate(w, "team", data)
 	})
 
-	http.HandleFunc("/conference-est/", func(w http.ResponseWriter, r *http.Request) {
-		serveTeamPage(w, r, "conference-est")
+	http.HandleFunc("/inscription", func(w http.ResponseWriter, r *http.Request) {
+		renderTemplate(w, "inscription", data)
 	})
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	http.HandleFunc("/connexion", func(w http.ResponseWriter, r *http.Request) {
+		renderTemplate(w, "connexion", data)
+	})
 
-	addr := ":" + port
-	fmt.Printf("Serveur prêt sur http://localhost%s\n", addr)
-	err := http.ListenAndServe(addr, nil)
+	port := ":8081"
+	fmt.Printf("Serveur prêt sur http://localhost%s\n", port)
+
+	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Fatalf("Erreur lancement serveur : %s\n", err.Error())
 	}

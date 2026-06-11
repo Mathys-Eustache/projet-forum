@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    const slideTimeout = 10000;
+    const slideTimeout = 10000;  // 10 secondes au lieu de 5
 
     // Configuration pour chaque carrousel
     const carousels = [
