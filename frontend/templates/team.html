@@ -1,0 +1,62 @@
+{{define "team"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA TalkZone - Boston Celtics</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/conference.css">
+</head>
+<body>
+    <div class="site-layout">
+        <div class="side-band band-blue"></div>
+
+        <div class="main-content">
+            <header class="nba-header">
+                <div class="logo-container">
+                    <a href="/"><img src="/static/assets/img/Logo_NBA_TalkZone.png" alt="Logo of NBA TalkZone" class="nba-logo"></a>
+                </div>
+                <nav class="nav-container">
+                    <ul class="nav-menu">
+                        <li><a href="/categories">Catégories</a></li>
+                        <li><a href="/conference-ouest">Conférence Ouest</a></li>
+                        <li><a href="/conference-est">Conférence Est</a></li>
+                        <li><a href="/inscription">Inscription</a></li>
+                        <li><a href="/connexion">Se connecter</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <main class="conference-page">
+                <section class="conference-hero">
+                    <h1 class="main-title">Forum - Boston Celtics 🍀</h1>
+                </section>
+
+                <section style="margin: 2rem; padding: 2rem; background-color: #fff; border-radius: 8px;">
+                    <h2>Discussions en cours</h2>
+                    <ul id="liste-topics" style="list-style-type: none; padding: 0; margin-bottom: 2rem;"></ul>
+                    
+                    <hr style="border: 1px solid #eee; margin-bottom: 2rem;">
+                    
+                    <h3>Créer un nouveau sujet</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 500px;">
+                        <input type="text" id="nouveau-titre" placeholder="Titre de votre sujet..." style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                        <textarea id="nouveau-message" placeholder="Votre message..." style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; min-height: 100px; font-family: inherit;"></textarea>
+                        <button onclick="envoyerTopic()" style="padding: 10px; background-color: #1d428a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Publier le sujet</button>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="site-footer">
+                <p>© 2026 NBA TalkZone — Le forum n°1 en France pour les fans de NBA.</p>
+            </footer>
+        </div>
+
+        <div class="side-band band-red"></div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
+{{end}}
