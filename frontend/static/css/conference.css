@@ -20,7 +20,6 @@
 .conference-table-card {
     background: #fff;
     border-radius: 14px;
-    box-shadow: 0 12px 28px rgba(8, 45, 89, 0.12);
     overflow: hidden;
 }
 
@@ -81,23 +80,4 @@
     text-align: center;
     font-weight: 600;
     color: #082D59;
-}
-
-@media (max-width: 900px) {
-    .conference-page {
-        padding: 20px 12px 28px;
-    }
-
-    .conference-table {
-        font-size: 0.92rem;
-    }
-
-    .team-cell {
-        gap: 10px;
-    }
-
-    .team-cell img {
-        width: 36px;
-        height: 36px;
-    }
 }

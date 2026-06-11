@@ -63,7 +63,6 @@ body, html {
     position: sticky;
     bottom: 0;
     z-index: 1000;
-    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.18);
     width: 100%;
 }
 
@@ -223,7 +222,6 @@ body, html {
     max-width: 450px;
     height: auto;
     border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     display: block;
 }
 
@@ -262,7 +260,6 @@ body, html {
     overflow: hidden;
     border-radius: 12px;
     background: #fff;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
 }
 
 .carousel-slide {
@@ -306,7 +303,6 @@ body, html {
     border-radius: 999px;
     cursor: pointer;
     font-size: 18px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 .carousel-btn:hover {
