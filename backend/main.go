@@ -25,12 +25,18 @@ func main() {
 	categoryService := &services.CategoryService{Repo: categoryRepo}
 	categoryController := &controllers.CategoryController{Service: categoryService}
 
-	// 4. Configuration des Routes sur le Mux
+	// 4. Initialisation du module TOPICS
+	topicRepo := &repositories.TopicRepository{DB: db}
+	topicService := services.InitTopicService(topicRepo)
+	topicController := controllers.InitTopicController(topicService)
+
+	// 5. Configuration des Routes sur le Mux
 	mux := http.NewServeMux()
 	routers.SetupAuthRoutes(mux, authController)
 	routers.SetupCategoryRoutes(mux, categoryController)
+	routers.SetupTopicRoutes(mux, topicController)
 
-	// 5. Lancement du serveur
+	// 6. Lancement du serveur
 	fmt.Println("Serveur lance sur http://localhost:8080")
 	http.ListenAndServe(":8080", mux)
 }
