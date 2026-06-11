@@ -22,8 +22,8 @@
                         <li><a href="/categories">Catégories</a></li>
                         <li><a href="/conference-ouest">Conférence Ouest</a></li>
                         <li><a href="/conference-est">Conférence Est</a></li>
-                        <li><a href="/inscription">Inscription</a></li>
-                        <li><a href="/connexion">Se connecter</a></li>
+                        <li id="nav-inscription"><a href="/inscription">Inscription</a></li>
+                        <li id="nav-connexion"><a href="/connexion">Se connecter</a></li>
                     </ul>
                 </nav>
             </header>
@@ -33,17 +33,22 @@
                     <h1 class="main-title">Forum - Boston Celtics 🍀</h1>
                 </section>
 
-                <section style="margin: 2rem; padding: 2rem; background-color: #fff; border-radius: 8px;">
+                <section class="chat-section">
                     <h2>Discussions en cours</h2>
-                    <ul id="liste-topics" style="list-style-type: none; padding: 0; margin-bottom: 2rem;"></ul>
                     
-                    <hr style="border: 1px solid #eee; margin-bottom: 2rem;">
+                    <ul id="liste-messages" class="message-list"></ul>
                     
-                    <h3>Créer un nouveau sujet</h3>
-                    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 500px;">
-                        <input type="text" id="nouveau-titre" placeholder="Titre de votre sujet..." style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                        <textarea id="nouveau-message" placeholder="Votre message..." style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; min-height: 100px; font-family: inherit;"></textarea>
-                        <button onclick="envoyerTopic()" style="padding: 10px; background-color: #1d428a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Publier le sujet</button>
+                    <hr class="separator">
+                    
+                    <div id="message-connexion" class="auth-message">
+                        <p>Tu dois être connecté pour participer à la discussion.</p>
+                        <a href="/connexion">Aller à la page de connexion</a>
+                    </div>
+
+                    <div id="zone-saisie" class="input-zone">
+                        <h3>Écrire un message</h3>
+                        <textarea id="nouveau-message" placeholder="Votre message..."></textarea>
+                        <button onclick="envoyerMessage()">Envoyer</button>
                     </div>
                 </section>
             </main>

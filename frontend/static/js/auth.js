@@ -55,6 +55,8 @@ if (formConnexion) {
         .then(res => {
             if (res.status === 200) {
                 localStorage.setItem('token', res.body.token);
+                localStorage.setItem('username', res.body.username); // <-- LA LIGNE MAGIQUE EST ICI
+                
                 succDiv.innerText = "Connexion réussie ! Redirection...";
                 succDiv.style.display = 'block';
                 setTimeout(() => { window.location.href = '/'; }, 2000);
