@@ -1,0 +1,140 @@
+.team-page {
+  --team-main: #082D59;
+  --team-alt: #1C428A;
+  --team-detail: #FFFFFF;
+}
+
+.team-page .main-content {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.88) 45%, rgba(255,255,255,0.98) 100%);
+}
+
+.team-page .side-band.band-blue {
+  background: var(--team-main);
+}
+
+.team-page .side-band.band-red {
+  background: var(--team-alt);
+}
+
+.team-page-shell {
+  padding: 32px 24px 40px;
+}
+
+.franchise-hero {
+  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(248, 250, 252, 0.98));
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  margin-bottom: 18px;
+}
+
+.franchise-hero .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.78rem;
+  color: var(--team-main);
+  font-weight: 800;
+}
+
+.franchise-hero h1 {
+  font-size: 2rem;
+  color: #0f172a;
+  margin: 8px 0 10px;
+}
+
+.franchise-hero p {
+  color: #334155;
+  line-height: 1.5;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.team-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--team-main), var(--team-alt));
+  font-weight: 700;
+  font-size: 0.92rem;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.team-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.team-card h2,
+.team-card h3 {
+  color: #0f172a;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.team-card p,
+.team-card li {
+  color: #334155;
+  line-height: 1.45;
+}
+
+.team-card ul {
+  padding-left: 16px;
+}
+
+.team-card strong {
+  color: var(--team-main);
+}
+
+.team-accent {
+  border-top: 4px solid var(--team-main);
+}
+
+.team-page--thunder { --team-main: #007CC2; --team-alt: #E55F2A; }
+.team-page--spurs { --team-main: #000000; --team-alt: #D2D6D7; }
+.team-page--nuggets { --team-main: #0E2240; --team-alt: #F4CC34; }
+.team-page--lakers { --team-main: #F8C02F; --team-alt: #542581; }
+.team-page--rockets { --team-main: #D70B0D; --team-alt: #C1C4CE; }
+.team-page--timberwolves { --team-main: #252B3D; --team-alt: #385B7F; }
+.team-page--trail-blazers { --team-main: #D90828; --team-alt: #1B1B1B; }
+.team-page--suns { --team-main: #342559; --team-alt: #F29C5F; }
+.team-page--clippers { --team-main: #2D2F3E; --team-alt: #91273B; }
+.team-page--warriors { --team-main: #092C73; --team-alt: #F6CF2A; }
+.team-page--pelicans { --team-main: #0C2340; --team-alt: #C0AD85; }
+.team-page--mavericks { --team-main: #2B4B92; --team-alt: #373B49; }
+.team-page--grizzilies { --team-main: #002649; --team-alt: #7BA7CC; }
+.team-page--kings { --team-main: #393997; --team-alt: #7E827B; }
+.team-page--jazz { --team-main: #00275E; --team-alt: #E9E7F1; }
+
+.team-page--pistons { --team-main: #00519A; --team-alt: #D21033; }
+.team-page--knicks { --team-main: #2C4185; --team-alt: #FF5B27; }
+.team-page--cavaliers { --team-main: #6F263D; --team-alt: #BF976C; }
+.team-page--raptors { --team-main: #B41A1A; --team-alt: #353335; }
+.team-page--hawks { --team-main: #AD0210; --team-alt: #CBCBDA; }
+.team-page--76ers { --team-main: #1560BD; --team-alt: #D9DCED; }
+.team-page--magic { --team-main: #007CC5; --team-alt: #2C2D32; }
+.team-page--hornets { --team-main: #03869C; --team-alt: #B3B7C1; }
+.team-page--heat { --team-main: #000000; --team-alt: #932336; }
+.team-page--bucks { --team-main: #2C5234; --team-alt: #BFC2CE; }
+.team-page--nets { --team-main: #000000; --team-alt: #C3C5D1; }
+.team-page--pacers { --team-main: #041E42; --team-alt: #E7C449; }
+.team-page--wizards { --team-main: #C60C31; --team-alt: #363648; }
+.team-page--celtics { --team-main: #037039; --team-alt: #DCDFEA; }
+.team-page--bulls { --team-main: #D4001F; --team-alt: #1C191F; }

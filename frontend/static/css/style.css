@@ -8,7 +8,8 @@
 body, html {
     width: 100%;
     min-height: 100vh;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #082D59 0%, #FFFFFF 45%, #FFFFFF 55%, #C80F2D 100%);
+    background-attachment: fixed;
 }
 
 .site-layout {
@@ -30,17 +31,17 @@ body, html {
 }
 
 .band-blue {
-    background: linear-gradient(to bottom, #1C428A 50%, #082D59 100%);
+    background: linear-gradient(90deg, #082D59 0%, #1C428A 35%, #FFFFFF 100%);
 }
 
 .band-red {
-    background: linear-gradient(to bottom, #C80F2D 50%, #870909 100%);
+    background: linear-gradient(90deg, #FFFFFF 0%, #C80F2D 35%, #C80F2D 100%);
 }
 
 .main-content {
     flex: 1;
     min-width: 0;
-    background: linear-gradient(to bottom, #FFFFFF 50%, #DBDBDB 100%);
+    background: #FFFFFF;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -63,7 +64,6 @@ body, html {
     position: sticky;
     bottom: 0;
     z-index: 1000;
-    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.18);
     width: 100%;
 }
 
@@ -111,10 +111,27 @@ body, html {
     gap: 60px;
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
 .logo-container .nba-logo {
-    height: 70px;
+    height: 60px;
     display: block;
     object-fit: contain;
+}
+
+.main-title .title-logo {
+    height: 40px; /* Taille réduite pour le logo NBA */
+    display: block;
 }
 
 .nav-container {
@@ -179,6 +196,12 @@ body, html {
 }
 
 .main-title {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 20px;
     font-size: 46px;
     font-weight: 800;
     margin-bottom: 60px;
@@ -218,24 +241,46 @@ body, html {
     margin-bottom: 15px;
 }
 
-.image-wrapper img {
-    width: 100%;
-    max-width: 450px;
-    height: auto;
-    border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    display: block;
-}
+
 
 .carousel-section {
-    max-width: 1100px;
-    margin: 36px auto 0;
-    padding: 0 16px 24px;
+    max-width: 1000px;
+    margin: 0 auto 60px auto;
+    padding: 25px;
+    background: #fdfdfd;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease;
+}
+
+/* Différenciation par thèmes */
+.threads-theme {
+    border-left: 6px solid #1C428A; /* Keep visual theme */
+    background: #f8fafc;
+}
+
+
+
+.players-theme {
+    border-right: 6px solid #C80F2D;
+}
+
+/* Boutons spécifiques pour le thème Joueurs (Rouge) */
+.players-theme .carousel-btn {
+    background: #C80F2D;
+}
+
+.players-theme .carousel-btn:hover {
+    background: #a00c24;
+}
+
+.players-theme .dot.active {
+    background: #C80F2D;
 }
 
 .carousel-header {
     text-align: left;
-    margin-bottom: 14px;
+    margin-bottom: 25px;
 }
 
 .carousel-header h2 {
@@ -244,47 +289,129 @@ body, html {
     margin-bottom: 4px;
 }
 
-.carousel-header p {
-    color: #4b5563;
-    font-size: 14px;
-}
-
+/* Assurez-vous que le conteneur du carrousel est bien positionné en relatif */
 .carousel {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.carousel-track {
     position: relative;
-    flex: 1;
-    min-height: 320px;
     overflow: hidden;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    width: 100%;
+    /* Ajoutez une hauteur fixe ou min-height ici si nécessaire */
+    height: 400px; 
 }
 
-.carousel-slide {
-    display: none;
+/* Positionner les contrôles par-dessus le contenu */
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    z-index: 20;
+}
+
+.carousel-inner {
+    height: 400px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Assurer que les slides occupent bien la place */
+.slide-effect .carousel-inner {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%; /* Important */
     width: 100%;
 }
 
-.carousel-slide.active {
+.slide {
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-effect .slide {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 0;
+}
+
+.slide-effect {
+    overflow: hidden;
+}
+
+.fade-effect .carousel-inner {
+    position: relative;
+}
+
+.fade-effect .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.fade-effect .slide.active-fade {
+    opacity: 1;
+}
+
+/* Styles spécifiques pour le carrousel Threads */
+.slide-effect .slide img {
+    width: 100%;
+    height: 100%;
     display: block;
-}
-
-.carousel-slide img {
-    width: 100%;
-    height: 320px;
     object-fit: cover;
-    display: block;
 }
 
-.carousel-caption {
+.slide-effect .carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35));
     color: #fff;
     padding: 14px 16px 16px;
+    margin: 0;
+    z-index: 10;
+}
+
+/* Styles spécifiques pour le carrousel Players */
+.fade-effect .image-wrapper {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fade-effect .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.fade-effect .carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35));
+    color: #fff;
+    padding: 14px 16px 16px;
+    margin: 0;
+    z-index: 10;
+    width: 100%;
 }
 
 .carousel-caption h3 {
@@ -306,7 +433,6 @@ body, html {
     border-radius: 999px;
     cursor: pointer;
     font-size: 18px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 .carousel-btn:hover {

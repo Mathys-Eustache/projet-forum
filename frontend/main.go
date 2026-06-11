@@ -4,9 +4,20 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
+	"runtime"
+	"strings"
 	"text/template"
 )
+
+var baseDir = func() string {
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		return "."
+	}
+	return filepath.Dir(filename)
+}()
 
 func renderTemplate(w http.ResponseWriter, name string, data map[string]interface{}) {
 	files := []string{
@@ -29,8 +40,24 @@ func renderTemplate(w http.ResponseWriter, name string, data map[string]interfac
 	}
 }
 
+func serveTeamPage(w http.ResponseWriter, r *http.Request, folder string) {
+	slug := strings.TrimPrefix(r.URL.Path, "/"+folder+"/")
+	if slug == "" || strings.Contains(slug, "/") {
+		http.NotFound(w, r)
+		return
+	}
+
+	filePath := filepath.Join(baseDir, "templates", folder, slug+".html")
+	if _, err := os.Stat(filePath); err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	http.ServeFile(w, r, filePath)
+}
+
 func main() {
-	fs := http.FileServer(http.Dir("./static"))
+	fs := http.FileServer(http.Dir(filepath.Join(baseDir, "static")))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	data := map[string]interface{}{

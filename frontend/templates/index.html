@@ -22,7 +22,6 @@
 
                 <nav class="nav-container">
                     <ul class="nav-menu">
-                        <li><a href="/categories">Catégories</a></li>
                         <li><a href="/conference-ouest">Conférence Ouest</a></li>
                         <li><a href="/conference-est">Conférence Est</a></li>
                         <li id="nav-inscription"><a href="/inscription">Inscription</a></li>
@@ -39,89 +38,66 @@
             </header>
 
             <main class="page-body">
-                <h1 class="main-title">NBA TalkZone</h1>
-                <section class="carousel-section">
+                <h1 class="main-title">
+                    <img src="/static/assets/img/NBA_Logo.png" alt="Logo NBA" class="title-logo">
+                    NBA TalkZone
+                </h1>
+
+                <section class="carousel-section threads-theme">
                     <div class="carousel-header">
                         <h2>Thread à la une</h2>
-                        <p>{{.ThreadHighlight}}</p>
                     </div>
 
-                    <div class="carousel" id="carousel">
-                        <button class="carousel-btn prev" type="button" aria-label="Précédent">&#8592;</button>
-
-                        <div class="carousel-track">
-                            <article class="carousel-slide active">
-                                <a href="/{{.ThreadID}}" class="read-more-btn">
-                                    <div class="image-wrapper">
-                                        <img src="/static/assets/img/{{.ThreadID}}.jpg" alt="{{.ThreadTitle}}">
-                                    </div>
-                                </a> 
-                            </article>
-                            <article class="carousel-slide">
-                                <a href="/{{.ThreadID}}" class="read-more-btn">
-                                    <div class="image-wrapper">
-                                        <img src="/static/assets/img/{{.ThreadID}}.jpg" alt="{{.ThreadTitle}}">
-                                    </div>
-                                </a>
-                            </article>
-                            <article class="carousel-slide">
-                                <a href="/{{.ThreadID}}" class="read-more-btn">
-                                    <div class="image-wrapper">
-                                        <img src="/static/assets/img/{{.ThreadID}}.jpg" alt="{{.ThreadTitle}}">
-                                    </div>
-                                </a>
-                            </article>
+                    <div class="carousel slide-effect" id="carousel-threads">
+                        <div class="carousel-inner">
+                            <div class="slide">
+                                <img src="/static/assets/img/thread1_nba_finals.jpg" alt="NBA Finals">
+                                <div class="carousel-caption"><h3>Finales NBA</h3><p>Analyse du match 1.</p></div>
+                            </div>
+                            <div class="slide">
+                                <img src="/static/assets/img/thread2_nba_finals.jpg" alt="Draft NBA">
+                                <div class="carousel-caption"><h3>Draft 2026</h3><p>Les futurs talents.</p></div>
+                            </div>
+                            <div class="slide">
+                                <img src="/static/assets/img/thread3_nba_finals.jpg" alt="All Star Game">
+                                <div class="carousel-caption"><h3>All-Star Game</h3><p>Les votes sont ouverts.</p></div>
+                            </div>
                         </div>
 
-                        <button class="carousel-btn next" type="button" aria-label="Suivant">&#8594;</button>
-                    </div>
-
-                    <div class="carousel-dots" aria-label="Navigation du carrousel">
-                        <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
-                        <button class="dot" data-slide="1" aria-label="Slide 2"></button>
-                        <button class="dot" data-slide="2" aria-label="Slide 3"></button>
+                        <div class="carousel-controls">
+                            <button class="carousel-btn prev" id="prev-threads">&#8592;</button>
+                            <button class="carousel-btn next" id="next-threads">&#8594;</button>
+                        </div>
+                        <div class="carousel-dots"></div>
                     </div>
                 </section>
 
-                <section class="carousel-section">
+                <section class="carousel-section players-theme">
                     <div class="carousel-header">
                         <h2>Joueurs stars</h2>
                     </div>
 
-                    <div class="carousel" id="carousel">
-                        <button class="carousel-btn prev" type="button" aria-label="Précédent">&#8592;</button>
-
-                        <div class="carousel-track">
-                            <article class="carousel-slide active">
-                                <a href="/{{.ThreadID}}" class="read-more-btn">
-                                    <div class="image-wrapper">
-                                        <img src="/static/assets/img/{{.ThreadJS}}.jpg" alt="{{.ThreadJS}}">
-                                    </div>
-                                </a>
-                            </article>
-                            <article class="carousel-slide">
-                                <a href="/{{.ThreadID}}" class="read-more-btn">
-                                    <div class="image-wrapper">
-                                        <img src="/static/assets/img/{{.ThreadJS}}.jpg" alt="{{.ThreadJS}}">
-                                    </div>
-                                </a>
-                            </article>
-                            <article class="carousel-slide">
-                                <a href="/{{.ThreadID}}" class="read-more-btn">
-                                    <div class="image-wrapper">
-                                        <img src="/static/assets/img/{{.ThreadJS}}.jpg" alt="{{.ThreadJS}}">
-                                    </div>
-                                </a>
-                            </article>
+                    <div class="carousel fade-effect" id="carousel-players">
+                        <div class="carousel-inner">
+                            <div class="slide">
+                                <div class="image-wrapper"><img src="/static/assets/img/wemby.jpg" alt="Victor Wembenyama"></div>
+                                <div class="carousel-caption"><h3>Victor Wembenyama</h3><p>L'éternel King.</p></div>
+                            </div>
+                            <div class="slide">
+                                <div class="image-wrapper"><img src="/static/assets/img/giannis.jpg" alt="Giannis Antetokounmpo"></div>
+                                <div class="carousel-caption"><h3>Giannis Antetokounmpo</h3><p></p></div>
+                            </div>
+                            <div class="slide">
+                                <div class="image-wrapper"><img src="/static/assets/img/shai.jpg" alt="Shai Gilgeous-Alexander"></div>
+                                <div class="carousel-caption"><h3>Shai Gilgeous-Alexander</h3><p>L'avenir de la ligue.</p></div>
+                            </div>
                         </div>
 
-                        <button class="carousel-btn next" type="button" aria-label="Suivant">&#8594;</button>
-                    </div>
-
-                    <div class="carousel-dots" aria-label="Navigation du carrousel">
-                        <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
-                        <button class="dot" data-slide="1" aria-label="Slide 2"></button>
-                        <button class="dot" data-slide="2" aria-label="Slide 3"></button>
+                        <div class="carousel-controls">
+                            <button class="carousel-btn prev" id="prev-players">&#8592;</button>
+                            <button class="carousel-btn next" id="next-players">&#8594;</button>
+                        </div>
+                        <div class="carousel-dots"></div>
                     </div>
                 </section>
             </main>
