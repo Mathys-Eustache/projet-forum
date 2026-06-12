@@ -1,143 +1,59 @@
 (function () {
     "use strict";
-    const slideTimeout = 10000;  // 10 secondes au lieu de 5
+    const slideTimeout = 10000;
+    const carousel = document.getElementById('carousel-players');
+    
+    if (!carousel) return;
+    
+    const slides = carousel.querySelectorAll('.slide');
+    const prev = carousel.querySelector('.carousel-btn.prev');
+    const next = carousel.querySelector('.carousel-btn.next');
+    
+    let currentSlide = 0;
+    let intervalId;
 
-    // Configuration pour chaque carrousel
-    const carousels = [
-        {
-            containerId: 'carousel-threads',
-            isSlide: true // Effet de glissement
-        },
-        {
-            containerId: 'carousel-players',
-            isSlide: false // Effet de fondu
-        }
-    ];
-
-    // Fonction générique pour initialiser un carrousel
-    function initCarousel(config) {
-        const carouselContainer = document.getElementById(config.containerId);
-        if (!carouselContainer) {
-            console.warn(`Carousel container #${config.containerId} not found.`);
-            return;
-        }
-
-        const slides = Array.from(carouselContainer.querySelectorAll('.slide'));
-        if (slides.length === 0) {
-            console.warn(`No slides found in #${config.containerId}`);
-            return;
-        }
-
-        const prev = carouselContainer.querySelector('.carousel-btn.prev');
-        const next = carouselContainer.querySelector('.carousel-btn.next');
-        const dotsContainer = carouselContainer.querySelector('.carousel-dots');
-        const carouselInner = carouselContainer.querySelector('.carousel-inner');
-function showSlide(index) {
-  slides.forEach((slide, i) => {
-    slide.classList.toggle('active', i === index);
-  });
-  dots.forEach((dot, i) => {
-    dot.classList.toggle('active', i === index);
-  });
-  currentSlide = index;
-}
-
-        let currentSlide = 0;
-        let intervalId;
-
-        // Générer les points si le conteneur est vide
-        if (!dotsContainer.hasChildNodes()) {
-            for (let i = 0; i < slides.length; i++) {
-                const dot = document.createElement('button');
-                dot.className = `dot ${i === 0 ? 'active' : ''}`;
-                dot.setAttribute('data-slide-id', i);
-                dot.setAttribute('aria-label', `Slide ${i + 1}`);
-                dot.addEventListener('click', () => showSlide(i));
-                dotsContainer.appendChild(dot);
-            }
-        }
-
-        const dots = Array.from(dotsContainer.querySelectorAll('.dot'));
-
-        function showSlide(index) {
-            // Navigation circulaire
-            if (index >= slides.length) {
-                index = 0;
-            } else if (index < 0) {
-                index = slides.length - 1;
-            }
-
-            currentSlide = index;
-
-            if (config.isSlide) {
-                // Effet de glissement pour threads
-                carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
-            } else {
-                // Effet de fondu pour players
-                slides.forEach((slide, i) => {
-                    slide.classList.toggle('active-fade', i === currentSlide);
-                });
-            }
-
-            // Mettre à jour les points
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
-            });
-
-            // Réinitialiser le minuteur automatique
-            clearInterval(intervalId);
-            intervalId = setInterval(() => showSlide(currentSlide + 1), slideTimeout);
-        }
-
-        // Événements de navigation
-        prev.addEventListener('click', () => showSlide(currentSlide - 1));
-        next.addEventListener('click', () => showSlide(currentSlide + 1));
-
-        // Pause au survol
-        carouselContainer.addEventListener('mouseenter', () => {
-            clearInterval(intervalId);
-        });
-
-        carouselContainer.addEventListener('mouseleave', () => {
-            intervalId = setInterval(() => showSlide(currentSlide + 1), slideTimeout);
-        });
-
-        // Gestion du swipe tactile
-        let startX = 0;
-        carouselContainer.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-        });
-
-        carouselContainer.addEventListener('touchend', (e) => {
-            const endX = e.changedTouches[0].clientX;
-            const diff = startX - endX;
-
-            if (diff > 50) {
-                showSlide(currentSlide + 1);
-            } else if (diff < -50) {
-                showSlide(currentSlide - 1);
-            }
-        });
-
-        // Affichage initial
-        showSlide(0);
+    function showSlide(index) {
+        // Nettoyer tous les slides
+        slides.forEach(slide => slide.classList.remove('active-fade'));
+        
+        // Calculer l'index valide
+        currentSlide = index < 0 ? slides.length - 1 : index >= slides.length ? 0 : index;
+        
+        // Ajouter la classe au slide courant
+        slides[currentSlide].classList.add('active-fade');
     }
 
-    // Initialiser tous les carrousels
-    carousels.forEach(initCarousel);
+    function autoPlay() {
+        intervalId = setInterval(() => showSlide(currentSlide + 1), slideTimeout);
+    }
 
-})();
-if (slides.length > 0) {
-  showSlide(0);
-  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-  dots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-      showSlide(Number(dot.dataset.slide));
+    prev.addEventListener('click', () => {
+        clearInterval(intervalId);
+        showSlide(currentSlide - 1);
+        autoPlay();
     });
-  });
-  setInterval(nextSlide, 6700);
-}
+
+    next.addEventListener('click', () => {
+        clearInterval(intervalId);
+        showSlide(currentSlide + 1);
+        autoPlay();
+    });
+
+    carousel.addEventListener('mouseover', () => clearInterval(intervalId));
+    carousel.addEventListener('mouseout', autoPlay);
+
+    let startX = 0;
+    carousel.addEventListener('touchstart', (e) => startX = e.touches[0].clientX);
+    carousel.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].clientX;
+        if (startX - endX > 50) showSlide(currentSlide + 1);
+        else if (endX - startX > 50) showSlide(currentSlide - 1);
+    });
+
+    // Initialiser le premier slide
+    showSlide(0);
+    autoPlay();
+})();
 
 function gererNavbar() {
     const token = localStorage.getItem('token');
@@ -146,12 +62,8 @@ function gererNavbar() {
     const liConnexion = document.getElementById('nav-connexion');
 
     if (token && username && username !== "undefined") {
-        if (liInscription) {
-            liInscription.innerHTML = `<span class="nav-username">${username}</span>`;
-        }
-        if (liConnexion) {
-            liConnexion.innerHTML = `<a href="#" onclick="deconnexion()">Déconnexion</a>`;
-        }
+        if (liInscription) liInscription.innerHTML = `<span class="nav-username">${username}</span>`;
+        if (liConnexion) liConnexion.innerHTML = `<a href="#" onclick="deconnexion()">Déconnexion</a>`;
     }
 }
 

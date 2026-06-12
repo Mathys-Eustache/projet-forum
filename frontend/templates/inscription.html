@@ -19,12 +19,18 @@
                 </div>
                 <nav class="nav-container">
                     <ul class="nav-menu">
-                        <li><a href="/categories">Catégories</a></li>
                         <li><a href="/conference-ouest">Conférence Ouest</a></li>
                         <li><a href="/conference-est">Conférence Est</a></li>
                         <li><a href="/inscription">Inscription</a></li>
                         <li><a href="/connexion">Se connecter</a></li>
                     </ul>
+
+                    <div class="search-box">
+                        <form action="/search" method="GET">
+                            <input type="text" name="q" placeholder="Rechercher..." required>
+                            <button type="submit" class="search-btn"><img src="/static/assets/img/search_icon.png" alt="Search icon"></button>
+                        </form>
+                    </div>
                 </nav>
             </header>
 
