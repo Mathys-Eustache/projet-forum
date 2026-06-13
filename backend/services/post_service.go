@@ -1,40 +1,28 @@
 package services
 
-import (
-	"errors"
-	"strings"
-
-	"projet-forum/backend/dto"
-	"projet-forum/backend/models"
-	"projet-forum/backend/repositories"
-)
+import "projet-forum/backend/repositories"
 
 type PostService struct {
-	repo *repositories.PostRepository
+	Repo *repositories.PostRepository
 }
 
 func InitPostService(repo *repositories.PostRepository) *PostService {
-	return &PostService{repo: repo}
+	return &PostService{Repo: repo}
 }
 
-func (s *PostService) GetPostsByTopic(topicID int) ([]models.Post, error) {
-	return s.repo.GetPostsByTopic(topicID)
+func (s *PostService) GetPostsByTopic(topicID int, limit int, offset int) ([]repositories.PostResponse, error) {
+	return s.Repo.GetPostsByTopic(topicID, limit, offset)
 }
 
-func (s *PostService) CreatePost(req dto.CreatePostRequest) (int, error) {
-	if strings.TrimSpace(req.Content) == "" {
-		return 0, errors.New("le contenu du message est obligatoire")
+func (s *PostService) CreatePost(content string, topicID int, pseudo string) error {
+	var userID int
+	err := s.Repo.DB.QueryRow("SELECT id FROM Users WHERE username = ?", pseudo).Scan(&userID)
+	if err != nil {
+		return err
 	}
+	return s.Repo.CreatePost(content, topicID, userID)
+}
 
-	if req.TopicID <= 0 || req.UserID <= 0 {
-		return 0, errors.New("identifiants de sujet ou utilisateur invalides")
-	}
-
-	newPost := models.Post{
-		Content: req.Content,
-		TopicID: req.TopicID,
-		UserID:  req.UserID,
-	}
-
-	return s.repo.CreatePost(newPost)
+func (s *PostService) DeletePost(id int, pseudo string) error {
+	return s.Repo.DeletePost(id, pseudo)
 }

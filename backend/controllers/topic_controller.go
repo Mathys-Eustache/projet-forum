@@ -3,53 +3,172 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-
 	"projet-forum/backend/dto"
+	"projet-forum/backend/repositories"
 	"projet-forum/backend/services"
+	"strconv"
+	"strings"
 )
 
 type TopicController struct {
-	service *services.TopicService
+	Service *services.TopicService
 }
 
 func InitTopicController(service *services.TopicService) *TopicController {
-	return &TopicController{service: service}
+	return &TopicController{Service: service}
 }
 
-func (c *TopicController) GetAllTopicsHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	topics, err := c.service.GetAllTopics()
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": "Erreur serveur"})
-		return
-	}
-
-	json.NewEncoder(w).Encode(topics)
-}
-
-func (c *TopicController) CreateTopicHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
+func (c *TopicController) CreateTopic(w http.ResponseWriter, r *http.Request) {
 	var req dto.CreateTopicRequest
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": "Format des donnees invalide"})
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	id, err := c.service.CreateTopic(req)
+	pseudo := r.Header.Get("Pseudo")
+	if pseudo == "" {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	err := c.Service.CreateTopic(req, pseudo)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{"erreur": err.Error()})
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(map[string]interface{}{
-		"message": "Sujet cree avec succes",
-		"id":      id,
-	})
+}
+
+func (c *TopicController) GetTopics(w http.ResponseWriter, r *http.Request) {
+	categoryIDStr := r.URL.Query().Get("category")
+	limitStr := r.URL.Query().Get("limit")
+	offsetStr := r.URL.Query().Get("offset")
+	search := r.URL.Query().Get("search")
+
+	limit := 10
+	if l, err := strconv.Atoi(limitStr); err == nil && l > 0 {
+		limit = l
+	}
+
+	offset := 0
+	if o, err := strconv.Atoi(offsetStr); err == nil && o >= 0 {
+		offset = o
+	}
+
+	var topics []repositories.TopicResponse
+	var err error
+
+	if categoryIDStr != "" {
+		categoryID, errConv := strconv.Atoi(categoryIDStr)
+		if errConv == nil {
+			topics, err = c.Service.GetTopicsByCategory(categoryID, limit, offset, search)
+		} else {
+			topics, err = c.Service.GetAllTopics(limit, offset, search)
+		}
+	} else {
+		topics, err = c.Service.GetAllTopics(limit, offset, search)
+	}
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if topics == nil {
+		topics = []repositories.TopicResponse{}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(topics)
+}
+
+func (c *TopicController) DeleteTopic(w http.ResponseWriter, r *http.Request) {
+	idStr := strings.TrimPrefix(r.URL.Path, "/api/topics/")
+	topicID, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "ID invalide", http.StatusBadRequest)
+		return
+	}
+
+	pseudo := r.Header.Get("Pseudo")
+	if pseudo == "" {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	err = c.Service.DeleteTopic(topicID, pseudo)
+	if err != nil {
+		if err.Error() == "forbidden" {
+			http.Error(w, "Forbidden", http.StatusForbidden)
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func (c *TopicController) UpdateTopic(w http.ResponseWriter, r *http.Request) {
+	idStr := strings.TrimPrefix(r.URL.Path, "/api/topics/")
+	topicID, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "ID invalide", http.StatusBadRequest)
+		return
+	}
+
+	var req struct {
+		Content string `json:"content"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Requête invalide", http.StatusBadRequest)
+		return
+	}
+
+	pseudo := r.Header.Get("Pseudo")
+	if pseudo == "" {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	err = c.Service.UpdateTopic(topicID, req.Content, pseudo)
+	if err != nil {
+		if err.Error() == "forbidden" {
+			http.Error(w, "Forbidden", http.StatusForbidden)
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func (c *TopicController) UpdateTopicStatus(w http.ResponseWriter, r *http.Request) {
+	idStr := strings.TrimPrefix(r.URL.Path, "/api/topics/status/")
+	topicID, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "ID invalide", http.StatusBadRequest)
+		return
+	}
+
+	var req struct {
+		Status string `json:"status"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Requête invalide", http.StatusBadRequest)
+		return
+	}
+
+	pseudo := r.Header.Get("Pseudo")
+	err = c.Service.UpdateTopicStatus(topicID, req.Status, pseudo)
+	if err != nil {
+		if err.Error() == "forbidden" {
+			http.Error(w, "Forbidden", http.StatusForbidden)
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+	w.WriteHeader(http.StatusOK)
 }

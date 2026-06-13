@@ -1,41 +1,51 @@
 package services
 
 import (
-	"errors"
-	"strings"
-
 	"projet-forum/backend/dto"
 	"projet-forum/backend/models"
 	"projet-forum/backend/repositories"
 )
 
 type TopicService struct {
-	repo *repositories.TopicRepository
+	Repo *repositories.TopicRepository
 }
 
 func InitTopicService(repo *repositories.TopicRepository) *TopicService {
-	return &TopicService{repo: repo}
+	return &TopicService{Repo: repo}
 }
 
-func (s *TopicService) GetAllTopics() ([]models.Topic, error) {
-	return s.repo.GetAllTopics()
-}
-
-func (s *TopicService) CreateTopic(req dto.CreateTopicRequest) (int, error) {
-	if strings.TrimSpace(req.Title) == "" || strings.TrimSpace(req.Content) == "" {
-		return 0, errors.New("le titre et le contenu sont obligatoires")
+func (s *TopicService) CreateTopic(req dto.CreateTopicRequest, pseudo string) error {
+	var userID int
+	err := s.Repo.DB.QueryRow("SELECT id FROM Users WHERE username = ?", pseudo).Scan(&userID)
+	if err != nil {
+		return err
 	}
 
-	if req.CategoryID <= 0 || req.UserID <= 0 {
-		return 0, errors.New("identifiants de categorie ou utilisateur invalides")
-	}
-
-	newTopic := models.Topic{
+	topic := models.Topic{
 		Title:      req.Title,
 		Content:    req.Content,
+		UserID:     userID,
 		CategoryID: req.CategoryID,
-		UserID:     req.UserID,
 	}
+	return s.Repo.CreateTopic(topic)
+}
 
-	return s.repo.CreateTopic(newTopic)
+func (s *TopicService) GetAllTopics(limit int, offset int, search string) ([]repositories.TopicResponse, error) {
+	return s.Repo.GetAllTopics(limit, offset, search)
+}
+
+func (s *TopicService) GetTopicsByCategory(categoryID int, limit int, offset int, search string) ([]repositories.TopicResponse, error) {
+	return s.Repo.GetTopicsByCategory(categoryID, limit, offset, search)
+}
+
+func (s *TopicService) DeleteTopic(id int, pseudo string) error {
+	return s.Repo.DeleteTopic(id, pseudo)
+}
+
+func (s *TopicService) UpdateTopic(id int, content string, pseudo string) error {
+	return s.Repo.UpdateTopic(id, content, pseudo)
+}
+
+func (s *TopicService) UpdateTopicStatus(id int, status string, pseudo string) error {
+	return s.Repo.UpdateTopicStatus(id, status, pseudo)
 }
