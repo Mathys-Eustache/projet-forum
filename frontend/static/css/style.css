@@ -89,14 +89,6 @@ body, html {
     border-radius: 4px;
 }
 
-.footer-links a:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
-
 .nba-header {
     background-color: #1C428A; 
     color: white;
@@ -118,11 +110,6 @@ body, html {
     gap: 15px;
 }
 
-.header-title {
-    font-size: 24px;
-    font-weight: 700;
-}
-
 .logo-container .nba-logo {
     height: 60px;
     display: block;
@@ -130,7 +117,7 @@ body, html {
 }
 
 .main-title .title-logo {
-    height: 40px; /* Taille réduite pour le logo NBA */
+    height: 40px;
     display: block;
 }
 
@@ -153,10 +140,6 @@ body, html {
     font-size: 16px;
     font-weight: 500;
     transition: opacity 0.2s;
-}
-
-.nav-menu a:hover {
-    opacity: 0.8;
 }
 
 .search-box form {
@@ -186,7 +169,9 @@ body, html {
     border: none;
     color: white;
     cursor: pointer;
-    font-size: 16px;
+    width: auto;
+    height: 20px;
+    display: flex
 }
 
 .page-body {
@@ -208,74 +193,33 @@ body, html {
     color: #000000;
 }
 
-.forum-sections {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.section-column {
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.column-title {
-    font-size: 38px;
-    font-weight: bold;
-    color: #000000;
-    margin-bottom: 5px;
-}
-
-.spacer-title {
-    margin-bottom: 26px; 
-}
-
-.column-subtitle {
-    font-size: 14px;
-    color: #444444;
-    margin-bottom: 15px;
-}
-
-
-
 .carousel-section {
     max-width: 1000px;
     margin: 0 auto 60px auto;
     padding: 25px;
     background: #fdfdfd;
     border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
     transition: transform 0.3s ease;
 }
 
-/* Différenciation par thèmes */
-.threads-theme {
-    border-left: 6px solid #1C428A; /* Keep visual theme */
-    background: #f8fafc;
+.featured-section {
+    max-width: 1000px;
+    margin: 0 auto 60px auto;
+    padding: 25px;
+    background: #fdfdfd;
+    border-radius: 16px;
+    transition: transform 0.3s ease;
 }
 
-
-
-.players-theme {
-    border-right: 6px solid #C80F2D;
+.section-header {
+    text-align: left;
+    margin-bottom: 25px;
 }
 
-/* Boutons spécifiques pour le thème Joueurs (Rouge) */
-.players-theme .carousel-btn {
-    background: #C80F2D;
-}
-
-.players-theme .carousel-btn:hover {
-    background: #a00c24;
-}
-
-.players-theme .dot.active {
-    background: #C80F2D;
+.section-header h2 {
+    font-size: 28px;
+    color: #111827;
+    margin-bottom: 4px;
 }
 
 .carousel-header {
@@ -289,17 +233,14 @@ body, html {
     margin-bottom: 4px;
 }
 
-/* Assurez-vous que le conteneur du carrousel est bien positionné en relatif */
 .carousel {
     position: relative;
     overflow: hidden;
     border-radius: 8px;
     width: 100%;
-    /* Ajoutez une hauteur fixe ou min-height ici si nécessaire */
     height: 400px; 
 }
 
-/* Positionner les contrôles par-dessus le contenu */
 .carousel-controls {
     position: absolute;
     top: 50%;
@@ -318,28 +259,9 @@ body, html {
     overflow: hidden;
 }
 
-/* Assurer que les slides occupent bien la place */
-.slide-effect .carousel-inner {
-    display: flex;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    height: 100%; /* Important */
-    width: 100%;
-}
-
 .slide {
     height: 100%;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.slide-effect .slide {
-    position: relative;
-    flex: 0 0 100%;
-    width: 100%;
-    min-width: 0;
-}
-
-.slide-effect {
-    overflow: hidden;
 }
 
 .fade-effect .carousel-inner {
@@ -362,29 +284,9 @@ body, html {
 
 .fade-effect .slide.active-fade {
     opacity: 1;
-}
-
-/* Styles spécifiques pour le carrousel Threads */
-.slide-effect .slide img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-}
-
-.slide-effect .carousel-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35));
-    color: #fff;
-    padding: 14px 16px 16px;
-    margin: 0;
     z-index: 10;
 }
 
-/* Styles spécifiques pour le carrousel Players */
 .fade-effect .image-wrapper {
     width: 100%;
     flex: 1;
@@ -424,6 +326,49 @@ body, html {
     line-height: 1.4;
 }
 
+.featured-image {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.featured-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.featured-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.5));
+    color: #fff;
+    padding: 24px 20px;
+    margin: 0;
+    z-index: 10;
+}
+
+.featured-caption h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+}
+
+.featured-caption p {
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.95);
+}
+
 .carousel-btn {
     border: none;
     background: #1C428A;
@@ -433,28 +378,4 @@ body, html {
     border-radius: 999px;
     cursor: pointer;
     font-size: 18px;
-}
-
-.carousel-btn:hover {
-    background: #082D59;
-}
-
-.carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    border: none;
-    background: #cbd5e1;
-    cursor: pointer;
-}
-
-.dot.active {
-    background: #1C428A;
 }

@@ -31,7 +31,7 @@
                     <div class="search-box">
                         <form action="/search" method="GET">
                             <input type="text" name="q" placeholder="Rechercher..." required>
-                            <button type="submit" class="search-btn">🔍</button>
+                            <button type="submit" class="search-btn"><img src="/static/assets/img/search_icon.png" alt="Search icon"></button>
                         </form>
                     </div>
                 </nav>
@@ -43,32 +43,17 @@
                     NBA TalkZone
                 </h1>
 
-                <section class="carousel-section threads-theme">
-                    <div class="carousel-header">
-                        <h2>Thread à la une</h2>
+                <section class="featured-section featured-thread">
+                    <div class="section-header">
+                        <h2>À la une</h2>
                     </div>
 
-                    <div class="carousel slide-effect" id="carousel-threads">
-                        <div class="carousel-inner">
-                            <div class="slide">
-                                <img src="/static/assets/img/thread1_nba_finals.jpg" alt="NBA Finals">
-                                <div class="carousel-caption"><h3>Finales NBA</h3><p>Analyse du match 1.</p></div>
-                            </div>
-                            <div class="slide">
-                                <img src="/static/assets/img/thread2_nba_finals.jpg" alt="Draft NBA">
-                                <div class="carousel-caption"><h3>Draft 2026</h3><p>Les futurs talents.</p></div>
-                            </div>
-                            <div class="slide">
-                                <img src="/static/assets/img/thread3_nba_finals.jpg" alt="All Star Game">
-                                <div class="carousel-caption"><h3>All-Star Game</h3><p>Les votes sont ouverts.</p></div>
-                            </div>
+                    <div class="featured-image">
+                        <img src="/static/assets/img/thread1_nba_finals.jpg" alt="NBA Finals">
+                        <div class="featured-caption">
+                            <h3>Knicks contre Spurs</h3>
+                            <p>Le duel aux sommets</p>
                         </div>
-
-                        <div class="carousel-controls">
-                            <button class="carousel-btn prev" id="prev-threads">&#8592;</button>
-                            <button class="carousel-btn next" id="next-threads">&#8594;</button>
-                        </div>
-                        <div class="carousel-dots"></div>
                     </div>
                 </section>
 
@@ -81,15 +66,15 @@
                         <div class="carousel-inner">
                             <div class="slide">
                                 <div class="image-wrapper"><img src="/static/assets/img/wemby.jpg" alt="Victor Wembenyama"></div>
-                                <div class="carousel-caption"><h3>Victor Wembenyama</h3><p>L'éternel King.</p></div>
+                                <div class="carousel-caption"><h3>Victor Wembenyama</h3><p>a affiché des statistiques de 25 points, 11,5 rebonds et 3,1 passes décisives par match</p></div>
                             </div>
                             <div class="slide">
                                 <div class="image-wrapper"><img src="/static/assets/img/giannis.jpg" alt="Giannis Antetokounmpo"></div>
-                                <div class="carousel-caption"><h3>Giannis Antetokounmpo</h3><p></p></div>
+                                <div class="carousel-caption"><h3>Giannis Antetokounmpo</h3><p>a affiché des statistiques de 27,6 points, 9,8 rebonds et 5,4 passes décisives par match</p></div>
                             </div>
                             <div class="slide">
                                 <div class="image-wrapper"><img src="/static/assets/img/shai.jpg" alt="Shai Gilgeous-Alexander"></div>
-                                <div class="carousel-caption"><h3>Shai Gilgeous-Alexander</h3><p>L'avenir de la ligue.</p></div>
+                                <div class="carousel-caption"><h3>Shai Gilgeous-Alexander</h3><p>a affiché des statistiques de 31,1 points, 4,3 rebonds et 6,6 passes décisives par match</p></div>
                             </div>
                         </div>
 
@@ -97,7 +82,6 @@
                             <button class="carousel-btn prev" id="prev-players">&#8592;</button>
                             <button class="carousel-btn next" id="next-players">&#8594;</button>
                         </div>
-                        <div class="carousel-dots"></div>
                     </div>
                 </section>
             </main>
