@@ -5,12 +5,17 @@ import (
 	"encoding/hex"
 	"errors"
 	"strings"
+	"time"
 	"unicode"
 
 	"projet-forum/backend/dto"
 	"projet-forum/backend/models"
 	"projet-forum/backend/repositories"
+
+	"github.com/golang-jwt/jwt/v5"
 )
+
+var jwtSecretKey = []byte("cle_secrete_ultra_robuste_nba_forum_2026")
 
 type AuthService struct {
 	repo *repositories.UserRepository
@@ -25,8 +30,7 @@ func (s *AuthService) Register(req dto.RegisterRequest) (int, error) {
 		return -1, errors.New("le mot de passe doit contenir au moins 12 caracteres")
 	}
 
-	hasUpper := false
-	hasSpecial := false
+	hasUpper, hasSpecial := false, false
 	for _, char := range req.Password {
 		if unicode.IsUpper(char) {
 			hasUpper = true
@@ -69,5 +73,16 @@ func (s *AuthService) Login(req dto.LoginRequest) (string, string, error) {
 		return "", "", errors.New("identifiants invalides")
 	}
 
-	return "TOKEN_SIMULE_POUR_" + u.Username, u.Username, nil
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"user_id":  u.ID,
+		"username": u.Username,
+		"exp":      time.Now().Add(time.Hour * 24).Unix(),
+	})
+
+	tokenString, err := token.SignedString(jwtSecretKey)
+	if err != nil {
+		return "", "", errors.New("erreur interne")
+	}
+
+	return tokenString, u.Username, nil
 }

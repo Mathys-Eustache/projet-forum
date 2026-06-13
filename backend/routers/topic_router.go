@@ -2,20 +2,30 @@ package routers
 
 import (
 	"net/http"
-
 	"projet-forum/backend/controllers"
+	"projet-forum/backend/handlers"
 )
 
-func SetupTopicRoutes(mux *http.ServeMux, topicController *controllers.TopicController) {
+func SetupTopicRoutes(mux *http.ServeMux, controller *controllers.TopicController) {
 	mux.HandleFunc("/api/topics", func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodGet:
-			topicController.GetAllTopicsHandler(w, r)
-		case http.MethodPost:
-			topicController.CreateTopicHandler(w, r)
-		default:
-			w.WriteHeader(http.StatusMethodNotAllowed)
-			w.Write([]byte(`{"erreur": "Methode non autorisee"}`))
+		if r.Method == "GET" {
+			controller.GetTopics(w, r)
+		} else if r.Method == "POST" {
+			handlers.AuthMiddleware(http.HandlerFunc(controller.CreateTopic))(w, r)
+		}
+	})
+
+	mux.HandleFunc("/api/topics/status/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "PUT" {
+			handlers.AuthMiddleware(http.HandlerFunc(controller.UpdateTopicStatus))(w, r)
+		}
+	})
+
+	mux.HandleFunc("/api/topics/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "DELETE" {
+			handlers.AuthMiddleware(http.HandlerFunc(controller.DeleteTopic))(w, r)
+		} else if r.Method == "PUT" {
+			handlers.AuthMiddleware(http.HandlerFunc(controller.UpdateTopic))(w, r)
 		}
 	})
 }

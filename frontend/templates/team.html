@@ -31,25 +31,37 @@
             <main class="conference-page">
                 <section class="conference-hero">
                     <h1 class="main-title">Forum - Boston Celtics 🍀</h1>
+                    <p style="text-align: center; color: #666;">Bienvenue dans le salon dédié aux fans des Celtics.</p>
                 </section>
 
-                <section class="chat-section">
-                    <h2>Discussions en cours</h2>
+                <section class="forum-section" style="max-width: 800px; margin: 20px auto; padding: 0 20px;">
                     
-                    <ul id="liste-messages" class="message-list"></ul>
-                    
-                    <hr class="separator">
-                    
-                    <div id="message-connexion" class="auth-message">
-                        <p>Tu dois être connecté pour participer à la discussion.</p>
-                        <a href="/connexion">Aller à la page de connexion</a>
+                    <div id="message-connexion" class="auth-message" style="background: #fff3cd; padding: 15px; border-radius: 5px; text-align: center; margin-bottom: 20px;">
+                        <p>Tu dois être connecté pour créer un sujet de discussion.</p>
+                        <a href="/connexion" style="color: #1d428a; font-weight: bold;">Aller à la page de connexion</a>
                     </div>
 
-                    <div id="zone-saisie" class="input-zone">
-                        <h3>Écrire un message</h3>
-                        <textarea id="nouveau-message" placeholder="Votre message..."></textarea>
-                        <button onclick="envoyerMessage()">Envoyer</button>
+                    <div id="zone-saisie" class="input-zone" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; display: none; flex-direction: column;">
+                        <h3 style="color: #1d428a; margin-top: 0;">Créer un nouveau sujet</h3>
+                        <input type="text" id="topic-title" placeholder="Titre de votre sujet..." style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+                        <textarea id="topic-content" placeholder="Développez votre idée ici..." style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; min-height: 100px; box-sizing: border-box; resize: vertical;"></textarea>
+                        <button onclick="creerSujet()" style="background: #007A33; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; align-self: flex-start; font-weight: bold;">Publier le sujet</button>
                     </div>
+
+                    <hr class="separator" style="margin: 30px 0;">
+
+                    <div class="search-zone" style="margin-bottom: 20px;">
+                        <input type="text" id="search-topic" oninput="chargerSujets(1)" placeholder="🔍 Rechercher un message dans ce salon..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem;">
+                    </div>
+
+                    <h2>Sujets Récents</h2>
+                    
+                    <div id="liste-sujets">
+                        <p style="text-align: center; color: #999;">Chargement des discussions en cours...</p>
+                    </div>
+
+                    <div id="pagination-sujets"></div>
+
                 </section>
             </main>
 
@@ -61,7 +73,7 @@
         <div class="side-band band-red"></div>
     </div>
 
-    <script src="/static/js/app.js"></script>
+    <script src="/static/js/app.js?v=14"></script>
 </body>
 </html>
 {{end}}
