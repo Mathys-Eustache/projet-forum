@@ -47,6 +47,17 @@ func main() {
 	postController := controllers.InitPostController(postService)
 
 	mux := http.NewServeMux()
+
+	// 1. Autoriser Go à lire les fichiers statiques (CSS, images, JS)
+	fs := http.FileServer(http.Dir("frontend/static"))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	// 2. La seule route dont tu as besoin pour afficher tes 30 équipes !
+	mux.HandleFunc("/team", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "frontend/templates/team.html")
+	})
+
+	// Routes API
 	routers.SetupAuthRoutes(mux, authController)
 	routers.SetupCategoryRoutes(mux, categoryController)
 	routers.SetupTopicRoutes(mux, topicController)

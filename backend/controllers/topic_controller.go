@@ -45,6 +45,7 @@ func (c *TopicController) GetTopics(w http.ResponseWriter, r *http.Request) {
 	limitStr := r.URL.Query().Get("limit")
 	offsetStr := r.URL.Query().Get("offset")
 	search := r.URL.Query().Get("search")
+	sortBy := r.URL.Query().Get("sort") // Récupération du tri
 
 	limit := 10
 	if l, err := strconv.Atoi(limitStr); err == nil && l > 0 {
@@ -62,12 +63,12 @@ func (c *TopicController) GetTopics(w http.ResponseWriter, r *http.Request) {
 	if categoryIDStr != "" {
 		categoryID, errConv := strconv.Atoi(categoryIDStr)
 		if errConv == nil {
-			topics, err = c.Service.GetTopicsByCategory(categoryID, limit, offset, search)
+			topics, err = c.Service.GetTopicsByCategory(categoryID, limit, offset, search, sortBy)
 		} else {
-			topics, err = c.Service.GetAllTopics(limit, offset, search)
+			topics, err = c.Service.GetAllTopics(limit, offset, search, sortBy)
 		}
 	} else {
-		topics, err = c.Service.GetAllTopics(limit, offset, search)
+		topics, err = c.Service.GetAllTopics(limit, offset, search, sortBy)
 	}
 
 	if err != nil {
@@ -168,6 +169,36 @@ func (c *TopicController) UpdateTopicStatus(w http.ResponseWriter, r *http.Reque
 		} else {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func (c *TopicController) ReactTopic(w http.ResponseWriter, r *http.Request) {
+	idStr := strings.TrimPrefix(r.URL.Path, "/api/topics/react/")
+	topicID, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "ID invalide", http.StatusBadRequest)
+		return
+	}
+
+	var req struct {
+		Action string `json:"action"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Requête invalide", http.StatusBadRequest)
+		return
+	}
+
+	pseudo := r.Header.Get("Pseudo")
+	if pseudo == "" {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	err = c.Service.ReactTopic(topicID, req.Action, pseudo)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusOK)

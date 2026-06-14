@@ -4,10 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"path/filepath"
 	"runtime"
-	"strings"
 	"text/template"
 )
 
@@ -40,23 +38,8 @@ func renderTemplate(w http.ResponseWriter, name string, data map[string]interfac
 	}
 }
 
-func serveTeamPage(w http.ResponseWriter, r *http.Request, folder string) {
-	slug := strings.TrimPrefix(r.URL.Path, "/"+folder+"/")
-	if slug == "" || strings.Contains(slug, "/") {
-		http.NotFound(w, r)
-		return
-	}
-
-	filePath := filepath.Join(baseDir, "templates", folder, slug+".html")
-	if _, err := os.Stat(filePath); err != nil {
-		http.NotFound(w, r)
-		return
-	}
-
-	http.ServeFile(w, r, filePath)
-}
-
 func main() {
+	// 1. Dossier statique (CSS, JS, Images)
 	fs := http.FileServer(http.Dir(filepath.Join(baseDir, "static")))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
@@ -64,14 +47,18 @@ func main() {
 		"Title": "Bienvenue sur mon Frontend",
 	}
 
+	// 2. Page d'accueil ET gestion des erreurs 404
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
+			// LE MOUCHARD EST ICI : Il va s'afficher dans ton terminal
+			fmt.Println("❌ ERREUR 404 DÉCLENCHÉE POUR LE CHEMIN :", r.URL.Path)
 			http.NotFound(w, r)
 			return
 		}
 		renderTemplate(w, "index", data)
 	})
 
+	// 3. Pages des conférences
 	http.HandleFunc("/conference-ouest", func(w http.ResponseWriter, r *http.Request) {
 		renderTemplate(w, "conference-ouest", data)
 	})
@@ -80,10 +67,12 @@ func main() {
 		renderTemplate(w, "conference-est", data)
 	})
 
-	http.HandleFunc("/conference-est/celtics", func(w http.ResponseWriter, r *http.Request) {
+	// 4. LA PAGE DE L'ÉQUIPE (Celle qui gère toutes les équipes via ?id=X)
+	http.HandleFunc("/team", func(w http.ResponseWriter, r *http.Request) {
 		renderTemplate(w, "team", data)
 	})
 
+	// 5. Authentification
 	http.HandleFunc("/inscription", func(w http.ResponseWriter, r *http.Request) {
 		renderTemplate(w, "inscription", data)
 	})
@@ -92,6 +81,7 @@ func main() {
 		renderTemplate(w, "connexion", data)
 	})
 
+	// Lancement du serveur
 	port := ":8081"
 	fmt.Printf("Serveur prêt sur http://localhost%s\n", port)
 
