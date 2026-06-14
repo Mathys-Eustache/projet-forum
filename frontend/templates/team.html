@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA TalkZone - Boston Celtics</title>
+    <title>NBA TalkZone - Forum</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/conference.css">
+    <link rel="stylesheet" href="/static/css/teams.css">
 </head>
 <body>
     <div class="site-layout">
@@ -19,7 +20,6 @@
                 </div>
                 <nav class="nav-container">
                     <ul class="nav-menu">
-                        <li><a href="/categories">Catégories</a></li>
                         <li><a href="/conference-ouest">Conférence Ouest</a></li>
                         <li><a href="/conference-est">Conférence Est</a></li>
                         <li id="nav-inscription"><a href="/inscription">Inscription</a></li>
@@ -29,9 +29,9 @@
             </header>
 
             <main class="conference-page">
-                <section class="conference-hero">
-                    <h1 class="main-title">Forum - Boston Celtics 🍀</h1>
-                    <p style="text-align: center; color: #666;">Bienvenue dans le salon dédié aux fans des Celtics.</p>
+                <section class="conference-hero" id="hero-banner" style="padding: 40px 20px; color: white;">
+                    <h1 class="main-title" id="team-title" style="margin: 0; color: white;">Forum - Chargement...</h1>
+                    <p style="text-align: center; font-size: 1.2rem; color: #f8f9fa;">Bienvenue dans le salon dédié aux fans.</p>
                 </section>
 
                 <section class="forum-section" style="max-width: 800px; margin: 20px auto; padding: 0 20px;">
@@ -42,19 +42,25 @@
                     </div>
 
                     <div id="zone-saisie" class="input-zone" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; display: none; flex-direction: column;">
-                        <h3 style="color: #1d428a; margin-top: 0;">Créer un nouveau sujet</h3>
+                        <h3 style="margin-top: 0;" id="form-title">Créer un nouveau sujet</h3>
                         <input type="text" id="topic-title" placeholder="Titre de votre sujet..." style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
                         <textarea id="topic-content" placeholder="Développez votre idée ici..." style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; min-height: 100px; box-sizing: border-box; resize: vertical;"></textarea>
-                        <button onclick="creerSujet()" style="background: #007A33; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; align-self: flex-start; font-weight: bold;">Publier le sujet</button>
+                        <button id="btn-publish" onclick="creerSujet()" style="color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; align-self: flex-start; font-weight: bold;">Publier le sujet</button>
                     </div>
 
                     <hr class="separator" style="margin: 30px 0;">
 
-                    <div class="search-zone" style="margin-bottom: 20px;">
-                        <input type="text" id="search-topic" oninput="chargerSujets(1)" placeholder="🔍 Rechercher un message dans ce salon..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem;">
+                    <div class="search-sort-zone" style="margin-bottom: 20px; display: flex; gap: 10px;">
+                        <input type="text" id="search-topic" oninput="chargerSujets(1)" placeholder="🔍 Rechercher un message..." style="flex-grow: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem;">
+                        
+                        <select id="sort-topic" onchange="chargerSujets(1)" style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; cursor: pointer; background: white;">
+                            <option value="newest">📅 Plus récents</option>
+                            <option value="oldest">⏳ Plus anciens</option>
+                            <option value="popular">🔥 Plus populaires</option>
+                        </select>
                     </div>
 
-                    <h2>Sujets Récents</h2>
+                    <h2 id="recent-topics-title">Sujets Récents</h2>
                     
                     <div id="liste-sujets">
                         <p style="text-align: center; color: #999;">Chargement des discussions en cours...</p>
@@ -73,7 +79,7 @@
         <div class="side-band band-red"></div>
     </div>
 
-    <script src="/static/js/app.js?v=14"></script>
+    <script src="/static/js/app.js"></script>
 </body>
 </html>
 {{end}}

@@ -30,12 +30,12 @@ func (s *TopicService) CreateTopic(req dto.CreateTopicRequest, pseudo string) er
 	return s.Repo.CreateTopic(topic)
 }
 
-func (s *TopicService) GetAllTopics(limit int, offset int, search string) ([]repositories.TopicResponse, error) {
-	return s.Repo.GetAllTopics(limit, offset, search)
+func (s *TopicService) GetAllTopics(limit int, offset int, search string, sortBy string) ([]repositories.TopicResponse, error) {
+	return s.Repo.GetAllTopics(limit, offset, search, sortBy)
 }
 
-func (s *TopicService) GetTopicsByCategory(categoryID int, limit int, offset int, search string) ([]repositories.TopicResponse, error) {
-	return s.Repo.GetTopicsByCategory(categoryID, limit, offset, search)
+func (s *TopicService) GetTopicsByCategory(categoryID int, limit int, offset int, search string, sortBy string) ([]repositories.TopicResponse, error) {
+	return s.Repo.GetTopicsByCategory(categoryID, limit, offset, search, sortBy)
 }
 
 func (s *TopicService) DeleteTopic(id int, pseudo string) error {
@@ -48,4 +48,8 @@ func (s *TopicService) UpdateTopic(id int, content string, pseudo string) error 
 
 func (s *TopicService) UpdateTopicStatus(id int, status string, pseudo string) error {
 	return s.Repo.UpdateTopicStatus(id, status, pseudo)
+}
+
+func (s *TopicService) ReactTopic(id int, action string, pseudo string) error {
+	return s.Repo.ReactTopic(id, action, pseudo)
 }

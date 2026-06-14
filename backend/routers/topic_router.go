@@ -21,6 +21,12 @@ func SetupTopicRoutes(mux *http.ServeMux, controller *controllers.TopicControlle
 		}
 	})
 
+	mux.HandleFunc("/api/topics/react/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "PUT" {
+			handlers.AuthMiddleware(http.HandlerFunc(controller.ReactTopic))(w, r)
+		}
+	})
+
 	mux.HandleFunc("/api/topics/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "DELETE" {
 			handlers.AuthMiddleware(http.HandlerFunc(controller.DeleteTopic))(w, r)
