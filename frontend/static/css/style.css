@@ -1,3 +1,19 @@
+/* ==========================================================================
+   NBA TALKZONE - FEUILLE DE STYLE PRINCIPALE (GLOBAL)
+   ========================================================================== */
+
+/* --- 1. VARIABLES GLOBALES --- */
+:root {
+    --nba-blue-dark: #082D59;
+    --nba-blue: #1C428A;
+    --nba-red: #C80F2D;
+    --white: #FFFFFF;
+    --text-main: #111827;
+    --text-muted: #4b5563;
+    --bg-light: #fdfdfd;
+}
+
+/* --- 2. RESET ET BASE --- */
 * {
     margin: 0;
     padding: 0;
@@ -8,9 +24,14 @@
 body, html {
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, #082D59 0%, #FFFFFF 45%, #FFFFFF 55%, #C80F2D 100%);
+    /* Dégradé de fond tricolore fixe */
+    background: linear-gradient(135deg, var(--nba-blue-dark) 0%, var(--white) 45%, var(--white) 55%, var(--nba-red) 100%);
     background-attachment: fixed;
 }
+
+/* ==========================================================================
+   3. STRUCTURE DU SITE (LAYOUT & BANDES LATÉRALES)
+   ========================================================================== */
 
 .site-layout {
     display: flex;
@@ -21,6 +42,18 @@ body, html {
     overflow-x: hidden;
 }
 
+.main-content {
+    flex: 1;
+    min-width: 0;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+    overflow: visible;
+}
+
+/* Bandes colorées sur les côtés */
 .side-band {
     display: flex;
     width: 156px;
@@ -31,70 +64,23 @@ body, html {
 }
 
 .band-blue {
-    background: linear-gradient(90deg, #082D59 0%, #1C428A 35%, #FFFFFF 100%);
+    background: linear-gradient(90deg, var(--nba-blue-dark) 0%, var(--nba-blue) 35%, var(--white) 100%);
 }
 
 .band-red {
-    background: linear-gradient(90deg, #FFFFFF 0%, #C80F2D 35%, #C80F2D 100%);
+    background: linear-gradient(90deg, var(--white) 0%, var(--nba-red) 35%, var(--nba-red) 100%);
 }
 
-.main-content {
-    flex: 1;
-    min-width: 0;
-    background: #FFFFFF;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    z-index: 2;
-    overflow: visible;
-}
-
-.site-footer {
-    background: linear-gradient(to right, #082D59, #1C428A);
-    color: #FFFFFF;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    padding: 28px 32px;
-    margin-top: auto;
-    min-height: 110px;
-    border-top: 2px solid rgba(255, 255, 255, 0.08);
-    position: sticky;
-    bottom: 0;
-    z-index: 1000;
-    width: 100%;
-}
-
-.site-footer p {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.6;
-}
-
-.footer-links {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    font-size: 15px;
-}
-
-.footer-links a {
-    color: #FFFFFF;
-    text-decoration: none;
-    font-size: 15px;
-    padding: 4px 6px;
-    border-radius: 4px;
-}
+/* ==========================================================================
+   4. EN-TÊTE ET NAVIGATION (HEADER)
+   ========================================================================== */
 
 .nba-header {
-    background-color: #1C428A; 
-    color: white;
+    background-color: var(--nba-blue);
+    color: var(--white);
     display: flex;
     align-items: center;
-    justify-content: flex-start; 
+    justify-content: flex-start;
     width: calc(100% - 40px);
     margin: 20px auto 0 auto;
     border-radius: 4px;
@@ -116,16 +102,11 @@ body, html {
     object-fit: contain;
 }
 
-.main-title .title-logo {
-    height: 40px;
-    display: block;
-}
-
 .nav-container {
     display: flex;
     align-items: center;
     flex-grow: 1;
-    justify-content: space-between; 
+    justify-content: space-between;
 }
 
 .nav-menu {
@@ -135,13 +116,18 @@ body, html {
 }
 
 .nav-menu a {
-    color: #FFFFFF;
+    color: var(--white);
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
     transition: opacity 0.2s;
 }
 
+.nav-menu a:hover {
+    opacity: 0.8;
+}
+
+/* --- BARRE DE RECHERCHE DANS LE HEADER --- */
 .search-box form {
     display: flex;
     align-items: center;
@@ -154,7 +140,7 @@ body, html {
 .search-box input {
     background: none;
     border: none;
-    color: white;
+    color: var(--white);
     outline: none;
     padding: 4px;
     font-size: 14px;
@@ -167,12 +153,15 @@ body, html {
 .search-btn {
     background: none;
     border: none;
-    color: white;
+    color: var(--white);
     cursor: pointer;
-    width: auto;
     height: 20px;
-    display: flex
+    display: flex;
 }
+
+/* ==========================================================================
+   5. CONTENU PRINCIPAL DE LA PAGE D'ACCUEIL (INDEX)
+   ========================================================================== */
 
 .page-body {
     padding: 40px;
@@ -193,63 +182,86 @@ body, html {
     color: #000000;
 }
 
-.carousel-section {
-    max-width: 1000px;
-    margin: 0 auto 60px auto;
-    padding: 25px;
-    background: #fdfdfd;
-    border-radius: 16px;
-    transition: transform 0.3s ease;
+.main-title .title-logo {
+    height: 40px;
+    display: block;
 }
 
+/* --- SECTIONS COMMUNES (Carrousel & Featured) --- */
+.carousel-section,
 .featured-section {
     max-width: 1000px;
     margin: 0 auto 60px auto;
     padding: 25px;
-    background: #fdfdfd;
+    background: var(--bg-light);
     border-radius: 16px;
     transition: transform 0.3s ease;
 }
 
-.section-header {
-    text-align: left;
-    margin-bottom: 25px;
-}
-
-.section-header h2 {
-    font-size: 28px;
-    color: #111827;
-    margin-bottom: 4px;
-}
-
+.section-header,
 .carousel-header {
     text-align: left;
     margin-bottom: 25px;
 }
 
+.section-header h2,
 .carousel-header h2 {
     font-size: 28px;
-    color: #111827;
+    color: var(--text-main);
     margin-bottom: 4px;
 }
 
+/* --- SECTION À LA UNE (FEATURED) --- */
+.featured-image {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.featured-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.featured-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.5));
+    color: var(--white);
+    padding: 24px 20px;
+    margin: 0;
+    z-index: 10;
+}
+
+.featured-caption h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--white);
+}
+
+.featured-caption p {
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* --- CARROUSEL --- */
 .carousel {
     position: relative;
     overflow: hidden;
     border-radius: 8px;
     width: 100%;
-    height: 400px; 
-}
-
-.carousel-controls {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    right: 10px;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
-    z-index: 20;
+    height: 400px;
 }
 
 .carousel-inner {
@@ -264,6 +276,30 @@ body, html {
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Boutons Précédent/Suivant */
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    z-index: 20;
+}
+
+.carousel-btn {
+    border: none;
+    background: var(--nba-blue);
+    color: var(--white);
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Effet de fondu du carrousel */
 .fade-effect .carousel-inner {
     position: relative;
 }
@@ -309,7 +345,7 @@ body, html {
     left: 0;
     right: 0;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35));
-    color: #fff;
+    color: var(--white);
     padding: 14px 16px 16px;
     margin: 0;
     z-index: 10;
@@ -326,56 +362,127 @@ body, html {
     line-height: 1.4;
 }
 
-.featured-image {
-    position: relative;
-    width: 100%;
-    height: 500px;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-}
+/* ==========================================================================
+   6. PIED DE PAGE (FOOTER)
+   ========================================================================== */
 
-.featured-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-}
-
-.featured-caption {
-    position: absolute;
+.site-footer {
+    background: linear-gradient(to right, var(--nba-blue-dark), var(--nba-blue));
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    padding: 28px 32px;
+    margin-top: auto;
+    min-height: 110px;
+    border-top: 2px solid rgba(255, 255, 255, 0.08);
+    position: sticky;
     bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.5));
-    color: #fff;
-    padding: 24px 20px;
+    z-index: 1000;
+    width: 100%;
+}
+
+.site-footer p {
     margin: 0;
-    z-index: 10;
-}
-
-.featured-caption h3 {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0 0 8px 0;
-    color: #ffffff;
-}
-
-.featured-caption p {
     font-size: 15px;
-    line-height: 1.5;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.6;
 }
 
-.carousel-btn {
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 15px;
+}
+
+.footer-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 15px;
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   7. STYLES D'AUTHENTIFICATION (Depuis le nettoyage précédent)
+   ========================================================================== */
+.auth-section {
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: var(--white);
+    border-radius: 8px;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.auth-title {
+    text-align: center;
+    color: var(--nba-blue);
+    margin-bottom: 1.5rem;
+}
+
+.msg-erreur {
+    color: var(--nba-red);
+    margin-bottom: 1rem;
+    text-align: center;
+    display: none;
+}
+
+.msg-succes {
+    color: #28a745;
+    margin-bottom: 1rem;
+    text-align: center;
+    display: none;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.auth-button {
+    padding: 12px;
+    background-color: var(--nba-blue);
+    color: var(--white);
     border: none;
-    background: #1C428A;
-    color: #fff;
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 18px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.auth-button:hover {
+    background-color: var(--nba-blue-dark);
+}
+
+.auth-redirect-text {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.auth-redirect-link {
+    color: var(--nba-blue);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-redirect-link:hover {
+    text-decoration: underline;
 }

@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"projet-forum/backend/config"
 	"projet-forum/backend/controllers"
-	"projet-forum/backend/handlers"
 	"projet-forum/backend/repositories"
 	"projet-forum/backend/routers"
 	"projet-forum/backend/services"
 )
 
+// enableCORS permet à ton frontend (port 8081) de communiquer avec ton backend (port 8080)
 func enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -27,9 +27,11 @@ func enableCORS(next http.Handler) http.Handler {
 }
 
 func main() {
+	// 1. Initialisation de la base de données
 	db := config.InitDB()
 	defer db.Close()
 
+	// 2. Initialisation des composants (Architecture MVC / Service)
 	userRepo := repositories.InitUserRepository(db)
 	authService := services.InitAuthService(userRepo)
 	authController := controllers.InitAuthController(authService)
@@ -42,30 +44,17 @@ func main() {
 	topicService := services.InitTopicService(topicRepo)
 	topicController := controllers.InitTopicController(topicService)
 
-	postRepo := &repositories.PostRepository{DB: db}
-	postService := services.InitPostService(postRepo)
-	postController := controllers.InitPostController(postService)
-
+	// 3. Configuration du routeur API
 	mux := http.NewServeMux()
 
-	// 1. Autoriser Go à lire les fichiers statiques (CSS, images, JS)
-	fs := http.FileServer(http.Dir("frontend/static"))
-	mux.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	// 2. La seule route dont tu as besoin pour afficher tes 30 équipes !
-	mux.HandleFunc("/team", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "frontend/templates/team.html")
-	})
-
-	// Routes API
+	// Routes API (uniquement de la donnée JSON)
 	routers.SetupAuthRoutes(mux, authController)
 	routers.SetupCategoryRoutes(mux, categoryController)
 	routers.SetupTopicRoutes(mux, topicController)
-	routers.SetupPostRoutes(mux, postController)
 
-	mux.HandleFunc("/api/messages", handlers.HandleMessages(db))
-	mux.HandleFunc("/api/messages/", handlers.HandleDeleteMessage(db))
-
-	fmt.Println("Serveur lance sur http://localhost:8080")
-	http.ListenAndServe(":8080", enableCORS(mux))
+	// 4. Lancement du serveur Backend
+	fmt.Println("Serveur API Backend lancé sur http://localhost:8080")
+	if err := http.ListenAndServe(":8080", enableCORS(mux)); err != nil {
+		fmt.Printf("Erreur lors du lancement du serveur API: %v\n", err)
+	}
 }
