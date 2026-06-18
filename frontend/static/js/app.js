@@ -328,26 +328,11 @@ function supprimerSujet(id) {
     .catch(console.error);
 }
 
-// --- FONCTION POUR LE COMPTEUR GLOBAL (Barre Bleue) ---
-function chargerVraiCompteur() {
-    const compteur = document.getElementById('compteur-reel');
-    if (!compteur) return; // Si la barre bleue n'est pas sur cette page, on annule
-
-    // On récupère tous les messages du serveur (sans limite) pour compter le total
-    fetch('http://localhost:8080/api/topics?limit=1000')
-    .then(res => res.json())
-    .then(topics => {
-        compteur.innerText = Array.isArray(topics) ? topics.length : 0;
-    })
-    .catch(console.error);
-}
-
 // --- 5. INITIALISATION GLOBALE ---
 document.addEventListener('DOMContentLoaded', () => {
     gererNavbar();
     verifierConnexion();
     appliquerThemeDynamique();
-    chargerVraiCompteur(); // Lancement du compteur de la barre bleue
     
     if (document.getElementById('liste-sujets')) {
         chargerSujets();

@@ -1,97 +1,130 @@
-# 🏀 Guide de Soutenance & Documentation Technique - NBA TalkZone
+# 🏀 NBA TalkZone - Documentation Technique
 
-## 👥 1. Organisation Méthodologique & Répartition des Rôles
+NBA TalkZone est une plateforme de discussion web 100% dédiée aux fans de NBA. Elle permet aux passionnés d'échanger sur les 30 franchises de la ligue au sein de salons dédiés, avec un système de compte sécurisé, de création de sujets et de réactions (likes/dislikes).
 
-Le projet a été mené sur un cycle court (une semaine) en adoptant une approche de **développement agile par fonctionnalités**. Pour assurer une parallélisation totale du travail, l'architecture a été scindée en deux blocs autonomes (Backend et Frontend) communicant par API REST.
-
-### 🛠️ Mathys : Spécialisation Backend, Sécurité & Persistance (Port 8080)
-* **Architecture & Routage (Go) :** Point d'entrée unique `main.go`, gestion du routeur et configuration globale des en-têtes CORS.
-* **Modélisation & SQL :** Conception du schéma relationnel MySQL. Écriture de la couche *Repositories* (requêtes préparées anti-injection, jointures, pagination via `LIMIT`/`OFFSET`).
-* **Sécurité & Métier :** Chiffrement des mots de passe en SHA-512. Implémentation du middleware `auth_middleware.go` pour valider cryptographiquement les jetons JWT.
-* **Couche d'Échange :** Création des *Controllers* pour réceptionner le JSON, le mapper sur les DTOs, et distribuer les codes HTTP (200, 201, 401).
-
-### 🎨 Théodore : Spécialisation Frontend, Moteur de Thème & Rendu Dynamique (Port 8081)
-* **Serveur d'Affichage (Go) :** Serveur web secondaire pour le routage des vues HTML et la compilation des templates (`renderTemplate`).
-* **Intégration Graphique :** Design HTML5/CSS3, structure sémantique et responsive.
-* **Moteur Graphique Dynamique (`teams.css`) :** Système d'habillage optimisé via variables CSS, permettant de changer toute la charte graphique selon l'ID de l'équipe.
-* **Logique Applicative (Vanilla JS) :** Fichiers `auth.js` et `app.js` pour dynamiser l'interface. Gestion de session (`localStorage`), lecture d'URL, et hydratation dynamique du DOM (AJAX/Fetch) avec les *Template Literals*.
+Ce projet a été développé en adoptant une approche de développement agile et une architecture séparée (Backend/Frontend) communicant par API REST.
 
 ---
 
-## ⚙️ 2. LE BACKEND (Golang - Port 8080)
-*Suit l'architecture MVC / N-Tiers (Modèle, Vue/Controller, Services, Repositories).*
+## 🚀 1. Guide d'Installation et de Lancement
 
-### 📁 Racine & Configuration
-* **`backend/main.go` (Point d'entrée) :**
-  Initialise la base de données, injecte les dépendances, configure le routeur et gère le **CORS** pour autoriser le port 8081 à lui parler.
-* **`backend/config/db.go` :**
-  Gère l'accès brut à MySQL. Effectue un `db.Ping()` au démarrage pour s'assurer que la base répond.
+Pour faire tourner le projet en local sur votre machine, suivez ces étapes :
 
-### 📁 Les Données (Modèles & Transfert)
-* **`models/` (ex: `user.go`, `topic.go`) :**
-  Représentent la structure exacte des tables MySQL en code Go avec les tags JSON pour la sérialisation.
-* **`dto/` (Data Transfer Objects) :**
-  Agissent comme des filtres. Ils moulent les requêtes entrantes (ex: on ne lit que l'email, le pseudo et le mot de passe lors de l'inscription) pour ne pas exposer directement la base de données.
+### Prérequis
 
-### 📁 La Couche d'Accès aux Données (Repositories)
-*Ne contient que du SQL, aucune logique métier.*
-* **`user_repository.go` :** Exécute les requêtes `INSERT` (inscription) et `SELECT` (connexion).
-* **`category_repository.go` :** Récupère la liste dynamique des franchises NBA.
-* **`topic_repository.go` :** Le cœur du forum. Gère le CRUD des sujets, les jointures complexes (`JOIN users`), la pagination, et la recherche textuelle textuelle (`WHERE title LIKE ?`).
+- **Golang** installé sur votre machine
+- **MySQL** (via XAMPP, WAMP, MAMP, ou en natif) en cours d'exécution
 
-### 📁 La Couche Métier (Services)
-*Le "Cerveau" de l'application.*
-* **`auth_service.go` :** Gère le hachage en SHA-512 des mots de passe et génère le **Token JWT** signé lors de la connexion.
-* **`topic_service.go` :** Valide la conformité des messages avant insertion et gère les droits (vérifie si l'utilisateur a le statut admin/modérateur pour forcer la fermeture d'un topic).
+### Étape 1 : Initialisation de la base de données
 
-### 📁 La Couche Transport (Controllers & Middlewares)
-* **`controllers/` :** Réceptionnent le JSON du Frontend, décodent les données, appellent le bon service, et renvoient les statuts HTTP adéquats (200, 201, 401).
-* **`handlers/auth_middleware.go` :** L'intercepteur de sécurité. Extrait le Token JWT du header `Authorization: Bearer`, vérifie sa signature et sa date d'expiration avant de laisser passer la requête.
+1. Ouvrez votre gestionnaire MySQL (DBeaver, phpMyAdmin, ou le terminal)
+2. Créez une nouvelle base de données
+3. Exécutez le script SQL d'initialisation fourni avec le projet (celui contenant la création des tables `users`, `categories`, `topics`, `topic_reactions` et les INSERT des franchises)
 
----
+### Étape 2 : Configuration de l'environnement (Backend)
 
-## 🎨 3. LE FRONTEND (Serveur Web - Port 8081)
-*Un client totalement indépendant qui "consomme" l'API.*
+Dans le dossier `backend/`, assurez-vous de configurer correctement l'accès à la base de données :
+- aller dans le dossier databse et copier coller le fichier init.sql dans votre DBeaver
 
-### 📁 Serveur d'affichage
-* **`frontend/main.go` :** Un serveur web secondaire en Go qui distribue les fichiers statiques (CSS/JS) et compile les vues avec `html/template`.
+### Étape 3 : Lancement du Backend (API REST)
 
-### 📁 Les Vues (Dossier `templates/`)
-* **`index.html` :** Page d'accueil globale de NBA TalkZone.
-* **`conference-est.html` & `conference-ouest.html` :** Affichent les tableaux des franchises. Les lignes redirigent vers `/team?id=X`.
-* **`team.html` :** Vue dynamique principale. Ce n'est qu'un squelette (conteneur) que le JavaScript viendra remplir avec les sujets de l'équipe sélectionnée.
-* **`inscription.html` & `connexion.html` :** Formulaires d'authentification.
+1. Ouvrez un premier terminal
+2. Naviguez dans le dossier du backend
+3. Lancez le serveur :
 
-### 📁 Le Design (Dossier `static/css/`)
-* **`style.css` :** Feuille de style globale. Contient les classes critiques `.hidden-element` (`display: none !important;`) essentielles pour permettre au JS de forcer l'affichage ou le masquage des éléments de l'UI.
-* **`teams.css` :** Moteur graphique. Exploite les variables CSS (`--team-prim`, `--team-sec`). La classe ajoutée dynamiquement (ex: `.theme-celtics`) surcharge ces variables et recolore instantanément tout le site.
+```bash
+cd backend
+go run main.go
+```
 
-### 📁 La Logique d'Interface (Dossier `static/js/`)
-* **`auth.js` :** Bloque le rechargement (`e.preventDefault()`), envoie les données de connexion en POST, et stocke le Token JWT renvoyé par l'API dans le `localStorage` du navigateur.
-* **`app.js` :** Le moteur d'interactivité :
-  1. *Thématisation :* Lit l'ID dans l'URL et applique la bonne classe CSS au `<body>`.
-  2. *Sécurité UI :* Vérifie la présence du token JWT et affiche/cache la zone de saisie.
-  3. *Hydratation :* Utilise `fetch()` pour interroger l'API avec les paramètres de tri/recherche, et rebâtit le HTML dynamiquement avec les *Template Literals*.
+Le serveur Backend écoutera sur le port **http://localhost:8080**
+
+### Étape 4 : Lancement du Frontend (Serveur Web)
+
+1. Ouvrez un second terminal
+2. Naviguez dans le dossier du frontend
+3. Lancez le serveur web :
+
+```bash
+cd frontend
+go run main.go
+```
+
+Le serveur Frontend écoutera sur le port **http://localhost:8081**
+
+### Étape 5 : Accès au site
+
+Ouvrez votre navigateur web et rendez-vous à l'adresse : **http://localhost:8081**
 
 ---
 
-## 🗄️ 4. LA BASE DE DONNÉES (MySQL)
+## 👥 2. Architecture Globale & Rôles
 
-Schéma relationnel optimisé autour de 4 tables maîtresses :
-1. **`users` :** Gère l'authentification et l'identité (pseudos, emails, mots de passe hachés, rôles).
-2. **`categories` :** Définit les "salons" de discussion (les franchises NBA). C'est le pont entre un message et le design du Frontend.
-3. **`topics` :** La table centrale (Fil d'actualité). Contient le titre, le contenu, la date et le statut (ouvert/fermé). Clés étrangères vers `users` (auteur) et `categories` (équipe). *(NB: Les sujets remplacent les anciens "posts/messages" pour moderniser le projet en format Feed).*
-4. **`topic_reactions` :** Table d'association. Relie un `user_id` et un `topic_id` pour gérer les likes/dislikes et empêcher rigoureusement les doubles votes.
+Le projet est scindé en deux blocs autonomes pour assurer une parallélisation totale du travail.
+
+### Mathys EUSTACHE (Backend, Sécurité & Persistance)
+
+- Architecture & Routage (Go) et configuration globale (CORS)
+- Modélisation & SQL (Schéma relationnel MySQL, couche Repositories avec requêtes préparées anti-injection)
+- Sécurité & Métier (Chiffrement SHA-512, middleware de validation JWT)
+- Création des Controllers (JSON, mapping DTOs, codes HTTP)
+
+### Théodore NAJMAN (Frontend, Moteur de Thème & UI)
+
+- Serveur d'affichage (Go) pour le routage des vues HTML
+- Intégration Graphique HTML5/CSS3
+- Moteur Graphique Dynamique avec système d'habillage via variables CSS selon l'équipe sélectionnée
+- Logique Applicative (Vanilla JS) : Gestion de session localStorage et hydratation dynamique du DOM (Fetch API)
 
 ---
 
-## 🎤 5. L'ASTUCE ORAL : Le parcours complet d'une donnée
+## ⚙️ 3. LE BACKEND (Golang - Port 8080)
 
-**Si le jury demande : "Expliquez-moi le fonctionnement exact de la publication d'un message."**
+Suit l'architecture MVC / N-Tiers (Modèles, Controllers, Services, Repositories).
 
-1. **Le Navigateur (JS) :** Sur `team.html`, l'utilisateur clique sur "Publier". `app.js` empêche le rechargement, récupère le texte, s'assure qu'un Token JWT est dans le `localStorage`, et lance un `fetch()` (POST) vers `http://localhost:8080/api/topics` en incluant le JWT dans l'en-tête.
-2. **L'Intercepteur :** Sur le port 8080, `auth_middleware.go` valide cryptographiquement le JWT. Si OK, on continue.
-3. **Le Contrôleur :** `topic_controller.go` lit le JSON entrant et le passe à la couche métier.
-4. **Le Métier :** `topic_service.go` vérifie les règles, s'assure que le sujet n'est pas verrouillé, et passe la requête.
-5. **La Base (SQL) :** `topic_repository.go` exécute la requête `INSERT INTO topics` avec des paramètres préparés anti-injection.
-6. **La Boucle est bouclée :** Le serveur renvoie un code `201 Created`. `app.js` intercepte ce code, vide la zone de saisie, et relance la fonction `chargerSujets()` pour rafraîchir l'affichage instantanément.
+| Composant | Description |
+|-----------|-------------|
+| `backend/main.go` | Point d'entrée : Initialise la BDD, injecte les dépendances, configure le routeur et gère le CORS |
+| `backend/config/db.go` | Gère l'accès brut à MySQL. Effectue un `db.Ping()` au démarrage |
+| `models/` & `dto/` | Représentent la structure des tables MySQL et agissent comme des filtres de transfert (Data Transfer Objects) pour ne pas exposer la structure interne |
+| `repositories/` | La couche SQL pure. Gère le CRUD des sujets, les jointures complexes (JOIN), la pagination (LIMIT/OFFSET), et la recherche textuelle |
+| `services/` | La couche métier. Gère le hachage en SHA-512, génère le Token JWT, valide la conformité des messages et gère les droits d'édition |
+| `controllers/` & `handlers/` | Réceptionnent le JSON, et interceptent les requêtes (`auth_middleware.go`) pour vérifier la validité du Token JWT avant d'autoriser une action |
+
+---
+
+## 🎨 4. LE FRONTEND (Serveur Web - Port 8081)
+
+Un client totalement indépendant qui consomme l'API via des requêtes asynchrones.
+
+### Structure Frontend
+
+- **`frontend/main.go`** : Serveur web secondaire distribuant les fichiers statiques et compilant les vues avec `html/template`
+
+### Templates
+
+- **`templates/`** : Vues HTML (Accueil, Conférences, Formulaires d'authentification)
+  - `team.html` sert de squelette dynamique pour le forum d'une franchise
+
+### Styles CSS
+
+- **`static/css/style.css`** : Design global et classes critiques d'affichage (ex: `.hidden-element`)
+- **`static/css/teams.css`** : Moteur graphique exploitant les variables CSS (`--team-prim`, `--team-sec`) pour recolorer l'interface selon l'ID de l'équipe sélectionnée
+
+### Scripts JavaScript
+
+- **`static/js/auth.js`** : Gère les appels d'authentification et stocke le Token JWT dans le `localStorage`
+- **`static/js/app.js`** : Moteur d'interactivité (Thématisation, vérification de session, et hydratation dynamique de la liste des sujets via l'API)
+
+---
+
+## 🗄️ 5. LA BASE DE DONNÉES (MySQL)
+
+Le système repose sur un schéma relationnel de 4 tables maîtresses :
+
+| Table | Description |
+|-------|-------------|
+| **`users`** | Gère l'authentification et l'identité (pseudos, emails, mots de passe hachés, rôles) |
+| **`categories`** | Définit les salons de discussion (les 30 franchises NBA). Sert de pont entre les sujets et le design du frontend |
+| **`topics`** | La table centrale stockant le fil d'actualité (Titre, contenu, date, statut ouvert/fermé). Elle possède des clés étrangères vers `users` (l'auteur) et `categories` (la franchise visée) |
+| **`topic_reactions`** | Table d'association reliant un `user_id` et un `topic_id`. Ce système permet de comptabiliser les likes/dislikes tout en bloquant techniquement les doubles votes d'un même utilisateur |
