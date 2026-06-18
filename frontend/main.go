@@ -5,14 +5,26 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"runtime"
 	"text/template"
 )
+
+var baseDir = func() string {
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		return "."
+	}
+	return filepath.Dir(filename)
+}()
 
 func renderTemplate(w http.ResponseWriter, name string, data map[string]interface{}) {
 	files := []string{
 		filepath.Join("templates", "index.html"),
 		filepath.Join("templates", "conference-ouest.html"),
 		filepath.Join("templates", "conference-est.html"),
+		filepath.Join("templates", "team.html"),
+		filepath.Join("templates", "inscription.html"),
+		filepath.Join("templates", "connexion.html"),
 	}
 
 	tmpl, err := template.ParseFiles(files...)
@@ -27,33 +39,28 @@ func renderTemplate(w http.ResponseWriter, name string, data map[string]interfac
 }
 
 func main() {
-	fs := http.FileServer(http.Dir("./static"))
+	// 1. Dossier statique (CSS, JS, Images)
+	fs := http.FileServer(http.Dir(filepath.Join(baseDir, "static")))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	data := map[string]interface{}{
-		"Title": "Bienvenue sur mon Frontend",
+		"Title": "NBA TalkZone",
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/" {
-			http.NotFound(w, r)
-			return
-		}
+	// 2. Routes des pages HTML
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "index", data) })
+	http.HandleFunc("/conference-ouest", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "conference-ouest", data) })
+	http.HandleFunc("/conference-est", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "conference-est", data) })
+	http.HandleFunc("/team", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "team", data) })
+	http.HandleFunc("/inscription", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "inscription", data) })
+	http.HandleFunc("/connexion", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "connexion", data) })
 
-		renderTemplate(w, "index", data)
-	})
+	// 3. Lancement du serveur Web
+	port := ":8081"
+	fmt.Printf("Serveur Web Frontend prêt sur http://localhost%s\n", port)
 
-	http.HandleFunc("/conference-ouest", func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "conference-ouest", data)
-	})
-
-	http.HandleFunc("/conference-est", func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "conference-est", data)
-	})
-
-	fmt.Printf("Serveur prêt sur http://localhost%s\n", ":8080")
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(port, nil)
 	if err != nil {
-		log.Fatalf("Erreur lancement serveur : %s\n", err.Error())
+		log.Fatalf("Erreur lancement serveur web : %s\n", err.Error())
 	}
 }

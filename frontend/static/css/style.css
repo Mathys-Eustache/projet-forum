@@ -1,3 +1,19 @@
+/* ==========================================================================
+   NBA TALKZONE - FEUILLE DE STYLE PRINCIPALE (GLOBAL)
+   ========================================================================== */
+
+/* --- 1. VARIABLES GLOBALES --- */
+:root {
+    --nba-blue-dark: #082D59;
+    --nba-blue: #1C428A;
+    --nba-red: #C80F2D;
+    --white: #FFFFFF;
+    --text-main: #111827;
+    --text-muted: #4b5563;
+    --bg-light: #fdfdfd;
+}
+
+/* --- 2. RESET ET BASE --- */
 * {
     margin: 0;
     padding: 0;
@@ -8,8 +24,14 @@
 body, html {
     width: 100%;
     min-height: 100vh;
-    background-color: #f4f4f4;
+    /* Dégradé de fond tricolore fixe */
+    background: linear-gradient(135deg, var(--nba-blue-dark) 0%, var(--white) 45%, var(--white) 55%, var(--nba-red) 100%);
+    background-attachment: fixed;
 }
+
+/* ==========================================================================
+   3. STRUCTURE DU SITE (LAYOUT & BANDES LATÉRALES)
+   ========================================================================== */
 
 .site-layout {
     display: flex;
@@ -20,6 +42,18 @@ body, html {
     overflow-x: hidden;
 }
 
+.main-content {
+    flex: 1;
+    min-width: 0;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+    overflow: visible;
+}
+
+/* Bandes colorées sur les côtés */
 .side-band {
     display: flex;
     width: 156px;
@@ -30,27 +64,311 @@ body, html {
 }
 
 .band-blue {
-    background: linear-gradient(to bottom, #1C428A 50%, #082D59 100%);
+    background: linear-gradient(90deg, var(--nba-blue-dark) 0%, var(--nba-blue) 35%, var(--white) 100%);
 }
 
 .band-red {
-    background: linear-gradient(to bottom, #C80F2D 50%, #870909 100%);
+    background: linear-gradient(90deg, var(--white) 0%, var(--nba-red) 35%, var(--nba-red) 100%);
 }
 
-.main-content {
-    flex: 1;
-    min-width: 0;
-    background: linear-gradient(to bottom, #FFFFFF 50%, #DBDBDB 100%);
+/* ==========================================================================
+   4. EN-TÊTE ET NAVIGATION (HEADER)
+   ========================================================================== */
+
+.nba-header {
+    background-color: var(--nba-blue);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: calc(100% - 40px);
+    margin: 20px auto 0 auto;
+    border-radius: 4px;
+    padding: 10px 30px;
+    height: 90px;
+    gap: 60px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.logo-container .nba-logo {
+    height: 60px;
+    display: block;
+    object-fit: contain;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
+
+.nav-menu a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.nav-menu a:hover {
+    opacity: 0.8;
+}
+
+/* --- BARRE DE RECHERCHE DANS LE HEADER --- */
+.search-box form {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+.search-box input {
+    background: none;
+    border: none;
+    color: var(--white);
+    outline: none;
+    padding: 4px;
+    font-size: 14px;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    height: 20px;
+    display: flex;
+}
+
+/* ==========================================================================
+   5. CONTENU PRINCIPAL DE LA PAGE D'ACCUEIL (INDEX)
+   ========================================================================== */
+
+.page-body {
+    padding: 40px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.main-title {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 20px;
+    font-size: 46px;
+    font-weight: 800;
+    margin-bottom: 60px;
+    color: #000000;
+}
+
+.main-title .title-logo {
+    height: 40px;
+    display: block;
+}
+
+/* --- SECTIONS COMMUNES (Carrousel & Featured) --- */
+.carousel-section,
+.featured-section {
+    max-width: 1000px;
+    margin: 0 auto 60px auto;
+    padding: 25px;
+    background: var(--bg-light);
+    border-radius: 16px;
+    transition: transform 0.3s ease;
+}
+
+.section-header,
+.carousel-header {
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.section-header h2,
+.carousel-header h2 {
+    font-size: 28px;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+/* --- SECTION À LA UNE (FEATURED) --- */
+.featured-image {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.featured-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.featured-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.5));
+    color: var(--white);
+    padding: 24px 20px;
+    margin: 0;
+    z-index: 10;
+}
+
+.featured-caption h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--white);
+}
+
+.featured-caption p {
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* --- CARROUSEL --- */
+.carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    width: 100%;
+    height: 400px;
+}
+
+.carousel-inner {
+    height: 400px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide {
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Boutons Précédent/Suivant */
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    z-index: 20;
+}
+
+.carousel-btn {
+    border: none;
+    background: var(--nba-blue);
+    color: var(--white);
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Effet de fondu du carrousel */
+.fade-effect .carousel-inner {
+    position: relative;
+}
+
+.fade-effect .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
     display: flex;
     flex-direction: column;
-    position: relative;
-    z-index: 2;
-    overflow: visible;
+    align-items: stretch;
+    justify-content: flex-start;
 }
 
+.fade-effect .slide.active-fade {
+    opacity: 1;
+    z-index: 10;
+}
+
+.fade-effect .image-wrapper {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fade-effect .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.fade-effect .carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35));
+    color: var(--white);
+    padding: 14px 16px 16px;
+    margin: 0;
+    z-index: 10;
+    width: 100%;
+}
+
+.carousel-caption h3 {
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.carousel-caption p {
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   6. PIED DE PAGE (FOOTER)
+   ========================================================================== */
+
 .site-footer {
-    background: linear-gradient(to right, #082D59, #1C428A);
-    color: #FFFFFF;
+    background: linear-gradient(to right, var(--nba-blue-dark), var(--nba-blue));
+    color: var(--white);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -63,7 +381,6 @@ body, html {
     position: sticky;
     bottom: 0;
     z-index: 1000;
-    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.18);
     width: 100%;
 }
 
@@ -82,7 +399,7 @@ body, html {
 }
 
 .footer-links a {
-    color: #FFFFFF;
+    color: var(--white);
     text-decoration: none;
     font-size: 15px;
     padding: 4px 6px;
@@ -90,245 +407,82 @@ body, html {
 }
 
 .footer-links a:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-}
-
-.footer-links a:hover {
     text-decoration: underline;
 }
 
-.nba-header {
-    background-color: #1C428A; 
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; 
-    width: calc(100% - 40px);
-    margin: 20px auto 0 auto;
-    border-radius: 4px;
-    padding: 10px 30px;
-    height: 90px;
-    gap: 60px;
+/* ==========================================================================
+   7. STYLES D'AUTHENTIFICATION (Depuis le nettoyage précédent)
+   ========================================================================== */
+.auth-section {
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: var(--white);
+    border-radius: 8px;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.logo-container .nba-logo {
-    height: 70px;
-    display: block;
-    object-fit: contain;
-}
-
-.nav-container {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    justify-content: space-between; 
-}
-
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 40px;
-}
-
-.nav-menu a {
-    color: #FFFFFF;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 500;
-    transition: opacity 0.2s;
-}
-
-.nav-menu a:hover {
-    opacity: 0.8;
-}
-
-.search-box form {
-    display: flex;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    padding: 4px 8px;
-}
-
-.search-box input {
-    background: none;
-    border: none;
-    color: white;
-    outline: none;
-    padding: 4px;
-    font-size: 14px;
-}
-
-.search-box input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.search-btn {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.page-body {
-    padding: 40px;
+.auth-title {
     text-align: center;
-    flex-grow: 1;
+    color: var(--nba-blue);
+    margin-bottom: 1.5rem;
 }
 
-.main-title {
-    font-size: 46px;
-    font-weight: 800;
-    margin-bottom: 60px;
-    color: #000000;
+.msg-erreur {
+    color: var(--nba-red);
+    margin-bottom: 1rem;
+    text-align: center;
+    display: none;
 }
 
-.forum-sections {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
+.msg-succes {
+    color: #28a745;
+    margin-bottom: 1rem;
+    text-align: center;
+    display: none;
 }
 
-.section-column {
-    width: 45%;
+.auth-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 15px;
 }
 
-.column-title {
-    font-size: 38px;
-    font-weight: bold;
-    color: #000000;
-    margin-bottom: 5px;
-}
-
-.spacer-title {
-    margin-bottom: 26px; 
-}
-
-.column-subtitle {
-    font-size: 14px;
-    color: #444444;
-    margin-bottom: 15px;
-}
-
-.image-wrapper img {
-    width: 100%;
-    max-width: 450px;
-    height: auto;
+.auth-input {
+    padding: 12px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    display: block;
+    font-size: 1rem;
 }
 
-.carousel-section {
-    max-width: 1100px;
-    margin: 36px auto 0;
-    padding: 0 16px 24px;
-}
-
-.carousel-header {
-    text-align: left;
-    margin-bottom: 14px;
-}
-
-.carousel-header h2 {
-    font-size: 28px;
-    color: #111827;
-    margin-bottom: 4px;
-}
-
-.carousel-header p {
-    color: #4b5563;
-    font-size: 14px;
-}
-
-.carousel {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.carousel-track {
-    position: relative;
-    flex: 1;
-    min-height: 320px;
-    overflow: hidden;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-}
-
-.carousel-slide {
-    display: none;
-    width: 100%;
-}
-
-.carousel-slide.active {
-    display: block;
-}
-
-.carousel-slide img {
-    width: 100%;
-    height: 320px;
-    object-fit: cover;
-    display: block;
-}
-
-.carousel-caption {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35));
-    color: #fff;
-    padding: 14px 16px 16px;
-}
-
-.carousel-caption h3 {
-    font-size: 18px;
-    margin-bottom: 6px;
-}
-
-.carousel-caption p {
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.carousel-btn {
+.auth-button {
+    padding: 12px;
+    background-color: var(--nba-blue);
+    color: var(--white);
     border: none;
-    background: #1C428A;
-    color: #fff;
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 18px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
 }
 
-.carousel-btn:hover {
-    background: #082D59;
+.auth-button:hover {
+    background-color: var(--nba-blue-dark);
 }
 
-.carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 10px;
+.auth-redirect-text {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    border: none;
-    background: #cbd5e1;
-    cursor: pointer;
+.auth-redirect-link {
+    color: var(--nba-blue);
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.dot.active {
-    background: #1C428A;
+.auth-redirect-link:hover {
+    text-decoration: underline;
 }

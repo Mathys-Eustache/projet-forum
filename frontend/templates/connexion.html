@@ -1,0 +1,61 @@
+{{define "connexion"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA TalkZone - Connexion</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/conference.css">
+    <link rel="stylesheet" href="/static/css/connexion.css">
+</head>
+<body>
+    <div class="site-layout">
+        <div class="side-band band-blue"></div>
+
+        <div class="main-content">
+            <header class="nba-header">
+                <div class="logo-container">
+                    <a href="/"><img src="/static/assets/img/Logo_NBA_TalkZone.png" alt="Logo of NBA TalkZone" class="nba-logo"></a>
+                </div>
+                <nav class="nav-container">
+                    <ul class="nav-menu">
+                        <li><a href="/conference-ouest">Conférence Ouest</a></li>
+                        <li><a href="/conference-est">Conférence Est</a></li>
+                        <li><a href="/inscription">Inscription</a></li>
+                        <li><a href="/connexion">Se connecter</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <main class="conference-page">
+                <section class="auth-section">
+                    <h2 class="auth-title">Connexion</h2>
+                    
+                    <div id="msg-erreur" class="msg-erreur"></div>
+                    <div id="msg-succes" class="msg-succes"></div>
+                    
+                    <form id="form-connexion" class="auth-form">
+                        <input type="email" id="email" class="auth-input" placeholder="Adresse email" required>
+                        <input type="password" id="password" class="auth-input" placeholder="Mot de passe" required>
+                        <button type="submit" class="auth-button">Se connecter</button>
+                    </form>
+                    
+                    <p class="auth-redirect-text">
+                        Pas encore de compte ? <a href="/inscription" class="auth-redirect-link">Inscrivez-vous</a>
+                    </p>
+                </section>
+            </main>
+
+            <footer class="site-footer">
+                <p>© 2026 NBA TalkZone — Le forum n°1 en France pour les fans de NBA.</p>
+            </footer>
+        </div>
+
+        <div class="side-band band-red"></div>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+</body>
+</html>
+{{end}}
