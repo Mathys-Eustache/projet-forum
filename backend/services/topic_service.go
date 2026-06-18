@@ -14,9 +14,10 @@ func InitTopicService(repo *repositories.TopicRepository) *TopicService {
 	return &TopicService{Repo: repo}
 }
 
+// CreateTopic fait le lien entre le pseudo et l'ID utilisateur avant la création
 func (s *TopicService) CreateTopic(req dto.CreateTopicRequest, pseudo string) error {
 	var userID int
-	err := s.Repo.DB.QueryRow("SELECT id FROM Users WHERE username = ?", pseudo).Scan(&userID)
+	err := s.Repo.DB.QueryRow("SELECT id FROM users WHERE username = ?", pseudo).Scan(&userID)
 	if err != nil {
 		return err
 	}
@@ -30,6 +31,7 @@ func (s *TopicService) CreateTopic(req dto.CreateTopicRequest, pseudo string) er
 	return s.Repo.CreateTopic(topic)
 }
 
+// Les fonctions de lecture renvoient directement les données du Repository
 func (s *TopicService) GetAllTopics(limit int, offset int, search string, sortBy string) ([]repositories.TopicResponse, error) {
 	return s.Repo.GetAllTopics(limit, offset, search, sortBy)
 }
@@ -37,6 +39,9 @@ func (s *TopicService) GetAllTopics(limit int, offset int, search string, sortBy
 func (s *TopicService) GetTopicsByCategory(categoryID int, limit int, offset int, search string, sortBy string) ([]repositories.TopicResponse, error) {
 	return s.Repo.GetTopicsByCategory(categoryID, limit, offset, search, sortBy)
 }
+
+// Les actions sensibles transmettent désormais uniquement le pseudo de l'utilisateur connecté
+// Le Repository bloquera l'action si cet utilisateur n'est pas l'auteur du sujet.
 
 func (s *TopicService) DeleteTopic(id int, pseudo string) error {
 	return s.Repo.DeleteTopic(id, pseudo)

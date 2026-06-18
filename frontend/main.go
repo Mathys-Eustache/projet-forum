@@ -44,49 +44,23 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	data := map[string]interface{}{
-		"Title": "Bienvenue sur mon Frontend",
+		"Title": "NBA TalkZone",
 	}
 
-	// 2. Page d'accueil ET gestion des erreurs 404
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/" {
-			// LE MOUCHARD EST ICI : Il va s'afficher dans ton terminal
-			fmt.Println("❌ ERREUR 404 DÉCLENCHÉE POUR LE CHEMIN :", r.URL.Path)
-			http.NotFound(w, r)
-			return
-		}
-		renderTemplate(w, "index", data)
-	})
+	// 2. Routes des pages HTML
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "index", data) })
+	http.HandleFunc("/conference-ouest", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "conference-ouest", data) })
+	http.HandleFunc("/conference-est", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "conference-est", data) })
+	http.HandleFunc("/team", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "team", data) })
+	http.HandleFunc("/inscription", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "inscription", data) })
+	http.HandleFunc("/connexion", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "connexion", data) })
 
-	// 3. Pages des conférences
-	http.HandleFunc("/conference-ouest", func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "conference-ouest", data)
-	})
-
-	http.HandleFunc("/conference-est", func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "conference-est", data)
-	})
-
-	// 4. LA PAGE DE L'ÉQUIPE (Celle qui gère toutes les équipes via ?id=X)
-	http.HandleFunc("/team", func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "team", data)
-	})
-
-	// 5. Authentification
-	http.HandleFunc("/inscription", func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "inscription", data)
-	})
-
-	http.HandleFunc("/connexion", func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "connexion", data)
-	})
-
-	// Lancement du serveur
+	// 3. Lancement du serveur Web
 	port := ":8081"
-	fmt.Printf("Serveur prêt sur http://localhost%s\n", port)
+	fmt.Printf("Serveur Web Frontend prêt sur http://localhost%s\n", port)
 
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
-		log.Fatalf("Erreur lancement serveur : %s\n", err.Error())
+		log.Fatalf("Erreur lancement serveur web : %s\n", err.Error())
 	}
 }

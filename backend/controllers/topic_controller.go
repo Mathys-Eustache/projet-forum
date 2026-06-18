@@ -18,6 +18,7 @@ func InitTopicController(service *services.TopicService) *TopicController {
 	return &TopicController{Service: service}
 }
 
+// CreateTopic permet à un utilisateur connecté de publier un nouveau sujet
 func (c *TopicController) CreateTopic(w http.ResponseWriter, r *http.Request) {
 	var req dto.CreateTopicRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -25,14 +26,14 @@ func (c *TopicController) CreateTopic(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// On récupère le pseudo de l'auteur depuis les en-têtes (sécurisé par le middleware)
 	pseudo := r.Header.Get("Pseudo")
 	if pseudo == "" {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		http.Error(w, "Non autorisé", http.StatusUnauthorized)
 		return
 	}
 
-	err := c.Service.CreateTopic(req, pseudo)
-	if err != nil {
+	if err := c.Service.CreateTopic(req, pseudo); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -40,29 +41,30 @@ func (c *TopicController) CreateTopic(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// GetTopics renvoie la liste des sujets avec pagination, recherche et tri
 func (c *TopicController) GetTopics(w http.ResponseWriter, r *http.Request) {
-	categoryIDStr := r.URL.Query().Get("category")
-	limitStr := r.URL.Query().Get("limit")
-	offsetStr := r.URL.Query().Get("offset")
-	search := r.URL.Query().Get("search")
-	sortBy := r.URL.Query().Get("sort") // Récupération du tri
+	w.Header().Set("Content-Type", "application/json")
 
-	limit := 10
-	if l, err := strconv.Atoi(limitStr); err == nil && l > 0 {
+	// Récupération des paramètres de l'URL (?category=1&limit=10...)
+	categoryIDStr := r.URL.Query().Get("category")
+	search := r.URL.Query().Get("search")
+	sortBy := r.URL.Query().Get("sort")
+
+	// Pagination par défaut (10 sujets par page)
+	limit, offset := 10, 0
+	if l, err := strconv.Atoi(r.URL.Query().Get("limit")); err == nil && l > 0 {
 		limit = l
 	}
-
-	offset := 0
-	if o, err := strconv.Atoi(offsetStr); err == nil && o >= 0 {
+	if o, err := strconv.Atoi(r.URL.Query().Get("offset")); err == nil && o >= 0 {
 		offset = o
 	}
 
 	var topics []repositories.TopicResponse
 	var err error
 
+	// Tri selon qu'une catégorie précise (franchise) est demandée ou non
 	if categoryIDStr != "" {
-		categoryID, errConv := strconv.Atoi(categoryIDStr)
-		if errConv == nil {
+		if categoryID, errConv := strconv.Atoi(categoryIDStr); errConv == nil {
 			topics, err = c.Service.GetTopicsByCategory(categoryID, limit, offset, search, sortBy)
 		} else {
 			topics, err = c.Service.GetAllTopics(limit, offset, search, sortBy)
@@ -76,15 +78,17 @@ func (c *TopicController) GetTopics(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Évite de renvoyer "null" si la base est vide (renvoie un tableau vide [])
 	if topics == nil {
 		topics = []repositories.TopicResponse{}
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(topics)
 }
 
+// DeleteTopic permet de supprimer un sujet (vérifie si c'est l'auteur ou un admin)
 func (c *TopicController) DeleteTopic(w http.ResponseWriter, r *http.Request) {
+	// Extraction de l'ID depuis l'URL
 	idStr := strings.TrimPrefix(r.URL.Path, "/api/topics/")
 	topicID, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -94,14 +98,13 @@ func (c *TopicController) DeleteTopic(w http.ResponseWriter, r *http.Request) {
 
 	pseudo := r.Header.Get("Pseudo")
 	if pseudo == "" {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		http.Error(w, "Non autorisé", http.StatusUnauthorized)
 		return
 	}
 
-	err = c.Service.DeleteTopic(topicID, pseudo)
-	if err != nil {
+	if err := c.Service.DeleteTopic(topicID, pseudo); err != nil {
 		if err.Error() == "forbidden" {
-			http.Error(w, "Forbidden", http.StatusForbidden)
+			http.Error(w, "Interdit : Vous ne pouvez pas supprimer ce sujet", http.StatusForbidden)
 		} else {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -111,6 +114,7 @@ func (c *TopicController) DeleteTopic(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// UpdateTopic modifie le contenu d'un sujet existant
 func (c *TopicController) UpdateTopic(w http.ResponseWriter, r *http.Request) {
 	idStr := strings.TrimPrefix(r.URL.Path, "/api/topics/")
 	topicID, err := strconv.Atoi(idStr)
@@ -129,14 +133,13 @@ func (c *TopicController) UpdateTopic(w http.ResponseWriter, r *http.Request) {
 
 	pseudo := r.Header.Get("Pseudo")
 	if pseudo == "" {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		http.Error(w, "Non autorisé", http.StatusUnauthorized)
 		return
 	}
 
-	err = c.Service.UpdateTopic(topicID, req.Content, pseudo)
-	if err != nil {
+	if err := c.Service.UpdateTopic(topicID, req.Content, pseudo); err != nil {
 		if err.Error() == "forbidden" {
-			http.Error(w, "Forbidden", http.StatusForbidden)
+			http.Error(w, "Interdit", http.StatusForbidden)
 		} else {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -145,6 +148,7 @@ func (c *TopicController) UpdateTopic(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// UpdateTopicStatus permet aux admins de fermer ou d'ouvrir un sujet
 func (c *TopicController) UpdateTopicStatus(w http.ResponseWriter, r *http.Request) {
 	idStr := strings.TrimPrefix(r.URL.Path, "/api/topics/status/")
 	topicID, err := strconv.Atoi(idStr)
@@ -162,10 +166,9 @@ func (c *TopicController) UpdateTopicStatus(w http.ResponseWriter, r *http.Reque
 	}
 
 	pseudo := r.Header.Get("Pseudo")
-	err = c.Service.UpdateTopicStatus(topicID, req.Status, pseudo)
-	if err != nil {
+	if err := c.Service.UpdateTopicStatus(topicID, req.Status, pseudo); err != nil {
 		if err.Error() == "forbidden" {
-			http.Error(w, "Forbidden", http.StatusForbidden)
+			http.Error(w, "Interdit", http.StatusForbidden)
 		} else {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -174,6 +177,7 @@ func (c *TopicController) UpdateTopicStatus(w http.ResponseWriter, r *http.Reque
 	w.WriteHeader(http.StatusOK)
 }
 
+// ReactTopic gère l'ajout d'un Like ou Dislike sur un sujet
 func (c *TopicController) ReactTopic(w http.ResponseWriter, r *http.Request) {
 	idStr := strings.TrimPrefix(r.URL.Path, "/api/topics/react/")
 	topicID, err := strconv.Atoi(idStr)
@@ -183,7 +187,7 @@ func (c *TopicController) ReactTopic(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var req struct {
-		Action string `json:"action"`
+		Action string `json:"action"` // "like" ou "dislike"
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Requête invalide", http.StatusBadRequest)
@@ -192,12 +196,11 @@ func (c *TopicController) ReactTopic(w http.ResponseWriter, r *http.Request) {
 
 	pseudo := r.Header.Get("Pseudo")
 	if pseudo == "" {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		http.Error(w, "Non autorisé", http.StatusUnauthorized)
 		return
 	}
 
-	err = c.Service.ReactTopic(topicID, req.Action, pseudo)
-	if err != nil {
+	if err := c.Service.ReactTopic(topicID, req.Action, pseudo); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

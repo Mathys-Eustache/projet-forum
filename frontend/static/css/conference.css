@@ -1,14 +1,33 @@
+/* ==========================================================================
+   NBA TALKZONE - FEUILLE DE STYLE DES CONFÉRENCES & FORUMS
+   ========================================================================== */
+
+/* --- VARIABLES GLOBALES (Couleurs NBA) --- */
+:root {
+    --nba-blue: #1C428A;
+    --nba-blue-dark: #082D59;
+    --nba-red: #CE1141;
+    --bg-light: #f8f9fa;
+    --text-main: #333;
+    --text-muted: #888;
+    --border-color: #e5e7eb;
+}
+
+/* ==========================================================================
+   1. LAYOUT PRINCIPAL (conference-page)
+   ========================================================================== */
 .conference-page {
     padding: 32px 24px 40px;
 }
 
+/* --- HERO BANNER --- */
 .conference-hero {
     margin-bottom: 18px;
 }
 
 .conference-hero h1 {
     font-size: 2rem;
-    color: #082D59;
+    color: var(--nba-blue-dark);
     margin-bottom: 8px;
 }
 
@@ -17,10 +36,14 @@
     font-size: 1rem;
 }
 
+/* ==========================================================================
+   2. TABLEAUX DES FRANCHISES
+   ========================================================================== */
 .conference-table-card {
     background: #fff;
     border-radius: 14px;
     overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Ajout d'une légère ombre pour le relief */
 }
 
 .conference-table {
@@ -29,15 +52,16 @@
     font-size: 0.98rem;
 }
 
+/* --- CELLULES DU TABLEAU --- */
 .conference-table th,
 .conference-table td {
     padding: 14px 16px;
     text-align: left;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .conference-table th {
-    background: #1C428A;
+    background: var(--nba-blue);
     color: #fff;
     font-weight: 700;
     text-transform: uppercase;
@@ -45,19 +69,18 @@
     font-size: 0.82rem;
 }
 
-.conference-table tbody tr:hover {
-    background: #eff6ff;
-}
-
+/* --- INTERACTIVITÉ DU TABLEAU --- */
 .clickable-row {
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.clickable-row:hover {
-    background: #eef4ff;
+.clickable-row:hover,
+.conference-table tbody tr:hover {
+    background: #eff6ff; /* Bleu très clair au survol */
 }
 
+/* --- STYLE SPÉCIFIQUE DES ÉQUIPES --- */
 .team-cell {
     display: flex;
     align-items: center;
@@ -72,16 +95,150 @@
     object-fit: contain;
     border-radius: 8px;
     background: #fff;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
 }
 
+/* Centrer les colonnes 'Threads' et 'Messages' */
 .conference-table td:nth-child(2),
 .conference-table td:nth-child(3) {
     text-align: center;
     font-weight: 600;
-    color: #082D59;
+    color: var(--nba-blue-dark);
 }
 
+/* ==========================================================================
+   3. ZONE DE DISCUSSION (FORUM & CHAT)
+   ========================================================================== */
+
+.chat-section {
+    margin: 2rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.separator {
+    border: 1px solid #eee;
+    margin-bottom: 2rem;
+}
+
+/* --- LISTE DES MESSAGES --- */
+.message-list {
+    list-style-type: none;
+    padding: 15px;
+    margin-bottom: 2rem;
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Bulle de message */
+.message-list li {
+    background-color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    width: fit-content;
+    max-width: 85%;
+}
+
+/* En-tête du message (Auteur + Date) */
+.message-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.message-author {
+    color: var(--nba-blue);
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.message-date {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.message-content {
+    color: var(--text-main);
+    line-height: 1.4;
+}
+
+/* Bouton de suppression d'un message */
+.btn-delete {
+    margin-top: 8px;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    background: #dc3545; /* Rouge erreur classique */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
+/* ==========================================================================
+   4. ZONE DE SAISIE ET D'AUTHENTIFICATION
+   ========================================================================== */
+
+/* Message affiché aux utilisateurs non connectés */
+.auth-message {
+    color: #d9534f;
+    font-weight: bold;
+    text-align: center;
+}
+
+.auth-message a {
+    color: var(--nba-blue);
+    text-decoration: underline;
+}
+
+/* Zone pour taper un nouveau message */
+.input-zone {
+    display: none; /* Rendu visible via JS (.flex-element) */
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+}
+
+.input-zone textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.input-zone button {
+    padding: 10px;
+    background-color: var(--nba-blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.input-zone button:hover {
+    background-color: var(--nba-blue-dark);
+}
+
+/* ==========================================================================
+   5. RESPONSIVE DESIGN (Mobiles et petites tablettes)
+   ========================================================================== */
 @media (max-width: 900px) {
     .conference-page {
         padding: 20px 12px 28px;
@@ -99,111 +256,4 @@
         width: 36px;
         height: 36px;
     }
-}
-
-/* NOUVEAU DESIGN DU CHAT */
-.chat-section {
-    margin: 2rem;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-
-.message-list {
-    list-style-type: none;
-    padding: 15px;
-    margin-bottom: 2rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    border: 1px solid #e9ecef;
-    max-height: 400px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.message-list li {
-    background-color: #ffffff;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid #eee;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    width: fit-content;
-    max-width: 85%;
-}
-
-.message-header {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-bottom: 5px;
-}
-
-.message-author {
-    color: #1d428a;
-    font-weight: bold;
-    font-size: 0.95rem;
-}
-
-.message-date {
-    color: #888;
-    font-size: 0.75rem;
-}
-
-.message-content {
-    color: #333;
-    line-height: 1.4;
-}
-
-.btn-delete {
-    margin-top: 8px;
-    padding: 4px 8px;
-    font-size: 0.8rem;
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.separator {
-    border: 1px solid #eee;
-    margin-bottom: 2rem;
-}
-
-.auth-message {
-    color: #d9534f;
-    font-weight: bold;
-    text-align: center;
-}
-
-.auth-message a {
-    color: #1d428a;
-}
-
-.input-zone {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 500px;
-}
-
-.input-zone textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    min-height: 80px;
-    font-family: inherit;
-}
-
-.input-zone button {
-    padding: 10px;
-    background-color: #1d428a;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
 }
