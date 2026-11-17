@@ -11,7 +11,7 @@ import (
 
 func renderTemplate(w http.ResponseWriter, name string, data map[string]interface{}) {
 	files := []string{
-		filepath.Join("templates", "index.html"),
+		filepath.Join("templates", "index_erreur.html"), // 💥 L'ERREUR VOLONTAIRE EST ICI
 		filepath.Join("templates", "conference-ouest.html"),
 		filepath.Join("templates", "conference-est.html"),
 		filepath.Join("templates", "team.html"),
