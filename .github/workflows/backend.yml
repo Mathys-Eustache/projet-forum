@@ -1,0 +1,22 @@
+name: Backend CI
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "backend/**" ]
+  pull_request:
+    branches: [ "main" ]
+    paths: [ "backend/**" ]
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.25'
+    - name: Vérifier la compilation
+      run: go build -v ./...
