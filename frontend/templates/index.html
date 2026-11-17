@@ -1,0 +1,97 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA TalkZone</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <script src="/static/js/app.js" defer></script>
+
+    <div class="site-layout">
+        <div class="side-band band-blue"></div>
+        
+        <div class="main-content">
+            
+            <header class="nba-header">
+                <div class="logo-container">
+                    <a href="/"><img src="/static/assets/img/Logo_NBA_TalkZone.png" alt="Logo of NBA TalkZone" class="nba-logo"></a>
+                </div>
+
+                <nav class="nav-container">
+                    <ul class="nav-menu">
+                        <li><a href="/conference-ouest">Conférence Ouest</a></li>
+                        <li><a href="/conference-est">Conférence Est</a></li>
+                        <li id="nav-inscription"><a href="/inscription">Inscription</a></li>
+                        <li id="nav-connexion"><a href="/connexion">Se connecter</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <main class="page-body">
+                <h1 class="main-title">
+                    <img src="/static/assets/img/NBA_Logo.png" alt="Logo NBA" class="title-logo">
+                    NBA TalkZone
+                </h1>
+
+                <section class="featured-section featured-thread">
+                    <div class="section-header">
+                        <h2>À la une</h2>
+                    </div>
+
+                    <div class="featured-image">
+                        <img src="/static/assets/img/knicks.png" alt="NBA Finals">
+                        <div class="featured-caption">
+                            <h3>New York Knicks est champion de NBA</h3>
+                            <p>Les New York Knicks remportent les play-off de la NBA contre les San Antonio Spurs (4 victoires à 1). Ils remportent pour la 3e fois de leur histoire, leur dernier titre remonte à 1973 (4 victoires à 1 contre les Los Angeles Lakers)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="carousel-section players-theme">
+                    <div class="carousel-header">
+                        <h2>Joueurs stars</h2>
+                    </div>
+
+                    <div class="carousel fade-effect" id="carousel-players">
+                        <div class="carousel-inner">
+                            <div class="slide">
+                                <div class="image-wrapper"><img src="/static/assets/img/wemby.jpg" alt="Victor Wembanyama"></div>
+                                <div class="carousel-caption"><h3>Victor Wembanyama</h3><p>a affiché des statistiques de 25 points, 11,5 rebonds et 3,1 passes décisives par match</p></div>
+                            </div>
+                            <div class="slide">
+                                <div class="image-wrapper"><img src="/static/assets/img/giannis.jpg" alt="Giannis Antetokounmpo"></div>
+                                <div class="carousel-caption"><h3>Giannis Antetokounmpo</h3><p>a affiché des statistiques de 27,6 points, 9,8 rebonds et 5,4 passes décisives par match</p></div>
+                            </div>
+                            <div class="slide">
+                                <div class="image-wrapper"><img src="/static/assets/img/shai.jpg" alt="Shai Gilgeous-Alexander"></div>
+                                <div class="carousel-caption"><h3>Shai Gilgeous-Alexander</h3><p>a affiché des statistiques de 31,1 points, 4,3 rebonds et 6,6 passes décisives par match</p></div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-controls">
+                            <button class="carousel-btn prev" id="prev-players">&#8592;</button>
+                            <button class="carousel-btn next" id="next-players">&#8594;</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="site-footer">
+                <p>© 2026 NBA TalkZone — Le forum n°1 en France pour les fans de NBA.</p>
+                <div class="footer-links">
+                    <a href="#">Mentions légales</a>
+                    <span>·</span>
+                    <a href="#">Contact</a>
+                </div>
+            </footer>
+
+        </div>
+
+        <div class="side-band band-red"></div>
+    </div>
+</body>
+</html>
+{{end}}

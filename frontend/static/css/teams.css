@@ -1,0 +1,388 @@
+/* ==========================================================================
+   NBA TALKZONE - THÈMES DYNAMIQUES ET ZONE DE FORUM
+   ========================================================================== */
+
+/* ==========================================================================
+   1. VARIABLES DES FRANCHISES NBA
+   ========================================================================== */
+
+/* --- Conférence Ouest --- */
+.theme-thunder       { --team-prim: #007CC2; --team-sec: #E55F2A; }
+.theme-spurs         { --team-prim: #000000; --team-sec: #D2D6D7; }
+.theme-nuggets       { --team-prim: #0E2240; --team-sec: #F4CC34; }
+.theme-lakers        { --team-prim: #542581; --team-sec: #F8C02F; }
+.theme-rockets       { --team-prim: #D70B0D; --team-sec: #C1C4CE; }
+.theme-timberwolves  { --team-prim: #252B3D; --team-sec: #385B7F; }
+.theme-blazers       { --team-prim: #D90828; --team-sec: #1B1B1B; }
+.theme-suns          { --team-prim: #342559; --team-sec: #F29C5F; }
+.theme-clippers      { --team-prim: #2D2F3E; --team-sec: #91273B; }
+.theme-warriors      { --team-prim: #092C73; --team-sec: #F6CF2A; }
+.theme-pelicans      { --team-prim: #0C2340; --team-sec: #C0AD85; }
+.theme-mavericks     { --team-prim: #2B4B92; --team-sec: #373B49; }
+.theme-grizzlies     { --team-prim: #002649; --team-sec: #7BA7CC; }
+.theme-kings         { --team-prim: #393997; --team-sec: #7E827B; }
+.theme-jazz          { --team-prim: #00275E; --team-sec: #E9E7F1; }
+
+/* --- Conférence Est --- */
+.theme-pistons       { --team-prim: #00519A; --team-sec: #D21033; }
+.theme-celtics       { --team-prim: #037039; --team-sec: #DCDFEA; }
+.theme-knicks        { --team-prim: #2C4185; --team-sec: #FF5B27; }
+.theme-cavaliers     { --team-prim: #6F263D; --team-sec: #BF976C; }
+.theme-raptors       { --team-prim: #B41A1A; --team-sec: #353335; }
+.theme-hawks         { --team-prim: #AD0210; --team-sec: #CBCBDA; }
+.theme-76ers         { --team-prim: #1560BD; --team-sec: #D9DCED; }
+.theme-magic         { --team-prim: #007CC5; --team-sec: #2C2D32; }
+.theme-hornets       { --team-prim: #03869C; --team-sec: #B3B7C1; }
+.theme-heat          { --team-prim: #000000; --team-sec: #932336; }
+.theme-bucks         { --team-prim: #2C5234; --team-sec: #BFC2CE; }
+.theme-bulls         { --team-prim: #D4001F; --team-sec: #1C191F; }
+.theme-nets          { --team-prim: #000000; --team-sec: #C3C5D1; }
+.theme-pacers        { --team-prim: #041E42; --team-sec: #E7C449; }
+.theme-wizards       { --team-prim: #C60C31; --team-sec: #363648; }
+
+/* ==========================================================================
+   2. APPLICATION DYNAMIQUE DU STYLE (Surcharge selon le thème)
+   ========================================================================== */
+
+/* En-tête (Header) */
+body[class^="theme-"] .nba-header {
+    background-color: var(--team-prim) !important;
+    border-bottom: 4px solid var(--team-sec) !important;
+}
+
+/* Bandes latérales dynamiques */
+body[class^="theme-"] .dynamic-band-left {
+    background: linear-gradient(to right, var(--team-prim), transparent) !important;
+}
+body[class^="theme-"] .dynamic-band-right {
+    background: linear-gradient(to left, var(--team-sec), transparent) !important;
+}
+
+/* Bannière principale (Hero) */
+body[class^="theme-"] .conference-hero { 
+    background-color: var(--team-prim) !important; 
+    border-bottom: 8px solid var(--team-sec) !important; 
+}
+body[class^="theme-"] .conference-hero h1, 
+body[class^="theme-"] .conference-hero p {
+    color: #ffffff !important; 
+}
+
+/* Éléments d'interaction du forum (Boutons, Titres) */
+body[class^="theme-"] #btn-publish { 
+    background-color: var(--team-prim) !important; 
+    color: white !important;
+}
+body[class^="theme-"] #form-title, 
+body[class^="theme-"] #recent-topics-title { 
+    color: var(--team-prim) !important; 
+}
+
+/* Cartes des sujets (Topics) */
+body[class^="theme-"] .sujet-card { 
+    border-left: 5px solid var(--team-prim) !important; 
+}
+body[class^="theme-"] .sujet-card h3 { 
+    color: var(--team-prim) !important; 
+}
+body[class^="theme-"] .sujet-card h3:hover { 
+    color: var(--team-sec) !important; 
+    text-decoration: underline; 
+}
+
+/* Pagination dynamique */
+body[class^="theme-"] #pagination-sujets button { 
+    border-color: var(--team-prim) !important; 
+    color: var(--team-prim) !important; 
+}
+body[class^="theme-"] #pagination-sujets button:hover:not([disabled]) { 
+    background-color: var(--team-prim) !important; 
+    color: white !important; 
+}
+
+/* ==========================================================================
+   3. STRUCTURE ET COMPOSANTS DU FORUM (Entête, Formulaire)
+   ========================================================================== */
+
+.team-hero-banner {
+    padding: 40px 20px;
+    color: white;
+}
+
+.team-hero-title {
+    margin: 0;
+    color: white;
+}
+
+.team-hero-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #f8f9fa;
+}
+
+.forum-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.auth-message {
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.auth-link {
+    color: #1d428a;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+/* Zone de saisie d'un nouveau sujet */
+.input-zone {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    flex-direction: column;
+}
+
+.form-title {
+    margin-top: 0;
+}
+
+.topic-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.topic-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 100px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.btn-publish {
+    color: white;
+    background-color: #1d428a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+    font-weight: bold;
+}
+
+.btn-publish:hover {
+    background-color: #153166;
+}
+
+.forum-separator {
+    margin: 30px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.search-sort-zone {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.sort-select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    background: white;
+}
+
+.loading-text {
+    text-align: center;
+    color: #999;
+}
+
+/* Classes de gestion d'affichage Javascript */
+.hidden-element { 
+    display: none !important; 
+}
+
+.flex-element { 
+    display: flex !important; 
+}
+
+
+/* ==========================================================================
+   4. STYLE DES MESSAGES ET DE LA PAGINATION (sujet-card)
+   ========================================================================== */
+
+/* Conteneur principal d'un message */
+.sujet-card {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease;
+}
+
+.sujet-card:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Zone des actions (en haut à droite : ouvert/fermé, modération) */
+.sujet-actions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Étiquettes de statut */
+.sujet-status {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    color: white;
+}
+
+.status-ouvert { background-color: #28a745; }
+.status-ferme { background-color: #dc3545; }
+
+/* Boutons de modération (Modifier, Supprimer) */
+.action-btn {
+    background: transparent;
+    color: #6c757d;
+    font-size: 1.2rem;
+    padding: 2px 6px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.action-btn:hover { background: #f8f9fa; }
+.action-delete { color: #dc3545; }
+.action-delete:hover { background: #ffeeee; }
+
+/* Titre et contenu du message */
+.sujet-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-right: 150px; /* Évite que le texte passe sous les boutons d'action */
+    font-size: 1.3rem;
+    color: #111827;
+}
+
+.topic-content {
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+/* Pied de page du message (Auteur + Boutons J'aime) */
+.sujet-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.sujet-meta { color: #666; }
+.sujet-meta strong { color: #111; }
+
+/* Zone des réactions (Pouces) */
+.sujet-reactions {
+    display: flex;
+    gap: 10px;
+}
+
+.reaction-btn {
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.reaction-btn:hover {
+    background: #f0f0f0;
+    border-color: #aaa;
+}
+
+/* Message "Aucun sujet trouvé" */
+.empty-topics-msg {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* --- Pagination --- */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.pagination-btn {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    transition: background 0.2s;
+}
+
+.pagination-btn:hover:not(.btn-disabled) {
+    background: #e9ecef;
+}
+
+.btn-disabled {
+    background: #eee;
+    color: #999;
+    cursor: not-allowed;
+    border-color: #ddd;
+}
+
+.pagination-current {
+    font-weight: bold;
+    color: #333;
+}

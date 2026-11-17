@@ -1,0 +1,90 @@
+{{define "team"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA TalkZone - Forum</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/conference.css">
+    <link rel="stylesheet" href="/static/css/teams.css">
+</head>
+<body>
+    <div class="site-layout">
+        <div class="side-band dynamic-band-left"></div>
+
+        <div class="main-content">
+            <header class="nba-header">
+                <div class="logo-container">
+                    <a href="/"><img src="/static/assets/img/Logo_NBA_TalkZone.png" alt="Logo of NBA TalkZone" class="nba-logo"></a>
+                </div>
+                <nav class="nav-container">
+                    <ul class="nav-menu">
+                        <li><a href="/conference-ouest">Conférence Ouest</a></li>
+                        <li><a href="/conference-est">Conférence Est</a></li>
+                        <li id="nav-inscription"><a href="/inscription">Inscription</a></li>
+                        <li id="nav-connexion"><a href="/connexion">Se connecter</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <main class="conference-page">
+                <section class="conference-hero team-hero-banner" id="hero-banner">
+                    <h1 class="main-title team-hero-title" id="team-title">Forum - Chargement...</h1>
+                    <p class="team-hero-subtitle">Bienvenue dans le salon dédié aux fans.</p>
+                </section>
+
+                <section class="forum-container">
+                    
+                    <div id="message-connexion" class="auth-message">
+                        <p>Tu dois être connecté pour créer un sujet de discussion.</p>
+                        <a href="/connexion" class="auth-link">Aller à la page de connexion</a>
+                    </div>
+
+                    <div id="zone-saisie" class="input-zone hidden-element">
+                        <h3 class="form-title" id="form-title">Créer un nouveau sujet</h3>
+                        <input type="text" id="topic-title" class="topic-input" placeholder="Titre de votre sujet...">
+                        <textarea id="topic-content" class="topic-textarea" placeholder="Développez votre idée ici..."></textarea>
+                        <button id="btn-publish" class="btn-publish" onclick="creerSujet()">Publier le sujet</button>
+                    </div>
+
+                    <hr class="forum-separator">
+
+                    <div class="search-sort-zone">
+                        <input type="text" id="search-topic" class="search-input" oninput="chargerSujets(1)" placeholder="🔍 Rechercher un message...">
+                        
+                        <select id="sort-topic" class="sort-select" onchange="chargerSujets(1)">
+                            <option value="newest">📅 Plus récents</option>
+                            <option value="oldest">⏳ Plus anciens</option>
+                            <option value="popular">🔥 Plus populaires</option>
+                        </select>
+                    </div>
+
+                    <div class="forum-header-stats" style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <h2 id="recent-topics-title">Sujets Récents</h2>
+                        <span class="message-counter" style="font-weight: bold; color: #1d428a;">
+                            💬 Messages publiés : <span id="total-messages">0</span>
+                        </span>
+                    </div>
+                    
+                    <div id="liste-sujets">
+                        <p class="loading-text">Chargement des discussions en cours...</p>
+                    </div>
+
+                    <div id="pagination-sujets"></div>
+
+                </section>
+            </main>
+
+            <footer class="site-footer">
+                <p>© 2026 NBA TalkZone — Le forum n°1 en France pour les fans de NBA.</p>
+            </footer>
+        </div>
+
+        <div class="side-band dynamic-band-right"></div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
+{{end}}

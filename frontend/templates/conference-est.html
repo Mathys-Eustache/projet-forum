@@ -1,0 +1,110 @@
+{{define "conference-est"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA TalkZone - Conférence Est</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/conference.css">
+</head>
+<body>
+    <div class="site-layout">
+        <div class="side-band band-blue"></div>
+
+        <div class="main-content">
+            <header class="nba-header">
+                <div class="logo-container">
+                    <a href="/"><img src="/static/assets/img/Logo_NBA_TalkZone.png" alt="Logo of NBA TalkZone" class="nba-logo"></a>
+                </div>
+
+                <nav class="nav-container">
+                    <ul class="nav-menu">
+                        <li><a href="/conference-ouest">Conférence Ouest</a></li>
+                        <li><a href="/conference-est">Conférence Est</a></li>
+                        <li id="nav-inscription"><a href="/inscription">Inscription</a></li>
+                        <li id="nav-connexion"><a href="/connexion">Se connecter</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <main class="conference-page">
+                <section class="conference-hero">
+                    <h1 class="main-title">Discussions sur les franchises de la Conférence Est</h1>
+                </section>
+
+                <section class="conference-table-card">
+                    <table class="conference-table">
+                        <thead>
+                            <tr>
+                                <th>Franchise</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=1'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/celtics.png" alt="Boston Celtics"><span>Boston Celtics</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=18'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/knicks.png" alt="New York Knicks"><span>New York Knicks</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=26'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/bucks.png" alt="Milwaukee Bucks"><span>Milwaukee Bucks</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=25'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/heat.png" alt="Miami Heat"><span>Miami Heat</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=19'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/cavaliers.png" alt="Cleveland Cavaliers"><span>Cleveland Cavaliers</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=22'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/76ers.png" alt="Philadelphia 76ers"><span>Philadelphia 76ers</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=21'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/hawks.png" alt="Atlanta Hawks"><span>Atlanta Hawks</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=27'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/bulls.png" alt="Chicago Bulls"><span>Chicago Bulls</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=20'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/raptors.png" alt="Toronto Raptors"><span>Toronto Raptors</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=29'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/pacers.png" alt="Indiana Pacers"><span>Indiana Pacers</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=24'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/hornets.png" alt="Charlotte Hornets"><span>Charlotte Hornets</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=17'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/pistons.png" alt="Detroit Pistons"><span>Detroit Pistons</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=28'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/nets.png" alt="Brooklyn Nets"><span>Brooklyn Nets</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=23'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/magic.png" alt="Orlando Magic"><span>Orlando Magic</span></td>
+                            </tr>
+                            <tr class="clickable-row" onclick="window.location.href='/team?id=30'">
+                                <td class="team-cell"><img src="/static/assets/img/conference-est/wizards.png" alt="Washington Wizards"><span>Washington Wizards</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+
+            <footer class="site-footer">
+                <p>© 2026 NBA TalkZone — Le forum n°1 en France pour les fans de NBA.</p>
+                <div class="footer-links">
+                    <a href="#">Mentions légales</a>
+                    <span>·</span>
+                    <a href="#">Contact</a>
+                </div>
+            </footer>
+        </div>
+
+        <div class="side-band band-red"></div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
+{{end}}

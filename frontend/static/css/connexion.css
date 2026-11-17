@@ -1,0 +1,77 @@
+/* =========================================================
+   PAGES D'AUTHENTIFICATION (Connexion / Inscription)
+   ========================================================= */
+
+.auth-section {
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.auth-title {
+    text-align: center;
+    color: var(--nba-blue); /* Utilisation de la variable */
+    margin-bottom: 1.5rem;
+}
+
+.msg-erreur {
+    color: var(--nba-red); /* Utilisation de la variable */
+    margin-bottom: 1rem;
+    text-align: center;
+    display: none;
+}
+
+.msg-succes {
+    color: #28a745; /* Vert succès standard */
+    margin-bottom: 1rem;
+    text-align: center;
+    display: none;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-input {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.auth-button {
+    padding: 12px;
+    background-color: var(--nba-blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.auth-button:hover {
+    background-color: var(--nba-blue-dark);
+}
+
+.auth-redirect-text {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.auth-redirect-link {
+    color: var(--nba-blue);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-redirect-link:hover {
+    text-decoration: underline;
+}
