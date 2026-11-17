@@ -6,17 +6,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"runtime"
 	"text/template"
 )
-
-var baseDir = func() string {
-	_, filename, _, ok := runtime.Caller(0)
-	if !ok {
-		return "."
-	}
-	return filepath.Dir(filename)
-}()
 
 func renderTemplate(w http.ResponseWriter, name string, data map[string]interface{}) {
 	files := []string{
@@ -41,7 +32,7 @@ func renderTemplate(w http.ResponseWriter, name string, data map[string]interfac
 
 func main() {
 	// 1. Dossier statique (CSS, JS, Images)
-	fs := http.FileServer(http.Dir(filepath.Join(baseDir, "static")))
+	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	data := map[string]interface{}{
