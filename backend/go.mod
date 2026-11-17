@@ -1,4 +1,4 @@
-module backend
+module module projet-forum/backend
 
 go 1.25.0
 require (
