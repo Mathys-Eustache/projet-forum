@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"runtime"
 	"text/template"
@@ -56,10 +57,14 @@ func main() {
 	http.HandleFunc("/connexion", func(w http.ResponseWriter, r *http.Request) { renderTemplate(w, "connexion", data) })
 
 	// 3. Lancement du serveur Web
-	port := ":8081"
-	fmt.Printf("Serveur Web Frontend prêt sur http://localhost%s\n", port)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8081" // Fallback pour tester en local
+	}
 
-	err := http.ListenAndServe(port, nil)
+	fmt.Printf("Serveur Web Frontend prêt sur le port %s\n", port)
+
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatalf("Erreur lancement serveur web : %s\n", err.Error())
 	}
